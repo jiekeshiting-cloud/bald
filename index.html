@@ -1,436 +1,229 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>二宝子</title>
-  <style>
-    :root {
-      --bg-light: #f8f5f0;
-      --accent: #9f7aea;
-      --text: #222222;
-      --muted: #666666;
-      --card-bg: #ffffff;
-      --border: #e0d4ff;
-    }
-
-    [data-theme="dark"] {
-      --bg-light: linear-gradient(135deg, #0a0a2e, #1a1433, #2a1f4d, #3a2a66);
-      --accent: #c4b5fd;
-      --text: #ffffff;
-      --muted: #bbbbbb;
-      --card-bg: #1a1450;
-      --border: #6b5ab0;
-    }
-
-    * { box-sizing: border-box; margin:0; padding:0; }
-    body {
-      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
-      background: var(--bg-light);
-      color: var(--text);
-      min-height: 100vh;
-      transition: all 0.8s ease;
-    }
-
-    [data-theme="dark"] body {
-      background-size: 300% 300%;
-      animation: gradientShift 25s ease infinite;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .container { max-width: 1180px; margin: 0 auto; padding: 20px 16px 100px; }
-
-    .header { text-align: center; margin: 30px 0 25px; }
-    .avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); margin-bottom: 12px; }
-    .title-box h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
-    .datetime { font-size: 15.8px; color: var(--muted); }
-
-    /* 所有按钮统一双列排列 */
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 25px 0 35px;
-    }
-
-    button {
-      background: rgba(159, 122, 234, 0.12);
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 14px 20px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-size: 15px;
-      transition: all 0.3s ease;
-      width: 100%;
-    }
-    button:hover { background: rgba(159, 122, 234, 0.25); transform: scale(1.03); }
-
-    .search-box {
-      margin: 20px 0 35px;
-      padding: 16px 20px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.7);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(10px);
-    }
-    .search-input { width: 100%; border: none; outline: none; background: transparent; color: var(--text); font-size: 16.5px; }
-
-    .section-title { font-size: 18px; margin: 35px 0 16px; padding-left: 14px; border-left: 5px solid var(--accent); font-weight: 600; }
-
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
-
-    .card {
-      position: relative;
-      display: block; text-decoration: none; color: var(--text);
-      padding: 20px 18px; border-radius: 22px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-    }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 18px 35px rgba(159,122,234,0.18); }
-
-    .card .icon { 
-      font-size: 34px; margin-bottom: 12px; width: 52px; height: 52px; 
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 12px; overflow: hidden;
-    }
-    .card .icon img { width: 100%; height: 100%; object-fit: cover; }
-
-    .card-actions {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      display: flex;
-      gap: 6px;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .card:hover .card-actions { opacity: 1; }
-
-    .card-actions button {
-      width: 32px; height: 32px; padding: 0; font-size: 16px;
-      background: rgba(255,255,255,0.95);
-      border: 1px solid #ddd;
-      border-radius: 8px;
-    }
-
-    .add-form {
-      margin: 30px 0; padding: 24px; background: var(--card-bg);
-      border: 1px solid var(--border); border-radius: 24px;
-    }
-    .add-form input, .add-form select {
-      width: 100%; padding: 13px 16px; margin-bottom: 12px;
-      border-radius: 12px; border: 1px solid var(--border);
-      background: var(--bg-light); color: var(--text);
-    }
-    .add-form button { width: 100%; padding: 14px; margin-bottom: 8px; font-size: 15px; }
-
-    .footer { margin-top: 80px; text-align: center; color: var(--muted); font-size: 14px; }
-    .footer a { color: var(--accent); text-decoration: none; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#9f7aea">
+<title>二宝子</title>
+<style>
+:root{--bg:#f8f5f0;--accent:#9f7aea;--text:#222;--muted:#666;--card:#fff;--border:#e0d4ff}
+[data-theme="dark"]{--bg:linear-gradient(135deg,#0a0a2e,#1a1433,#2a1f4d,#3a2a66);--accent:#c4b5fd;--text:#fff;--muted:#bbb;--card:#1a1450;--border:#6b5ab0}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:all .8s}
+[data-theme="dark"] body{background-size:300% 300%;animation:gradient 25s infinite}
+@keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.container{max-width:1180px;margin:0 auto;padding:20px 16px 100px}
+.header{text-align:center;margin:30px 0 25px}
+.avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;border:4px solid var(--accent)}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:25px 0 35px}
+button{background:rgba(159,122,234,0.12);color:var(--text);border:1px solid var(--border);padding:14px 20px;border-radius:999px;cursor:pointer;font-size:15px;transition:.3s}
+button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
+.search-box{margin:20px 0 35px;padding:16px 20px;border-radius:999px;background:rgba(255,255,255,0.7);border:1px solid var(--border)}
+.search-input{width:100%;border:none;outline:none;background:transparent;color:var(--text);font-size:16.5px}
+.section-title{font-size:18px;margin:35px 0 16px;padding-left:14px;border-left:5px solid var(--accent);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px} /* 优化双列显示 */
+.card{position:relative;display:block;text-decoration:none;color:var(--text);padding:20px 18px;border-radius:22px;background:var(--card);border:1px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,.05);transition:.3s}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 35px rgba(159,122,234,.18)}
+.card .icon{font-size:34px;margin-bottom:12px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden}
+.card .icon img{width:100%;height:100%;object-fit:cover}
+.card-actions{position:absolute;top:12px;right:12px;display:flex;gap:6px;opacity:0;transition:.2s}
+.card:hover .card-actions{opacity:1}
+.card-actions button{width:32px;height:32px;padding:0;font-size:16px;background:rgba(255,255,255,.95);border:1px solid #ddd;border-radius:8px}
+.add-form{margin:30px 0;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:24px}
+.add-form input,.add-form select{width:100%;padding:13px 16px;margin-bottom:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
+.add-form button{width:100%;padding:14px;margin-bottom:8px;font-size:15px}
+.footer{margin-top:80px;text-align:center;color:var(--muted);font-size:14px}
+.footer a{color:var(--accent)}
+</style>
 </head>
 <body data-theme="light">
-
-  <div class="container">
-    <div class="header">
-      <img class="avatar" src="avatar.jpg" alt="二宝子">
-      <div class="title-box">
-        <h1>二宝子</h1>
-        <div class="datetime" id="datetime"></div>
-      </div>
-    </div>
-
-    <div class="search-box">
-      <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
-    </div>
-
-    <!-- 双列按钮区域（全部统一） -->
-    <div class="controls">
-      <button id="themeToggle">☀️ 白天模式</button>
-      <button id="musicBtn">🎵 音乐</button>
-      
-      <button id="cfLogin">🔐 Cloudflare 登录</button>
-      <button id="githubLogin">🐙 GitHub 登录</button>
-      
-      <button id="addBtn">➕ 添加书签</button>
-      <button id="clearBtn">🗑️ 清空全部</button>
-    </div>
-
-    <!-- 添加/编辑书签表单 -->
-    <div id="addForm" class="add-form" style="display: none;">
-      <input id="addName" type="text" placeholder="书签名称" required>
-      <input id="addUrl" type="text" placeholder="网址 (https://...)" required>
-      <input id="addIcon" type="text" placeholder="Emoji 图标（可选）" value="🌐">
-      
-      <button id="uploadImageBtn" style="background:#e0d4ff; color:#222;">📷 选择本地图片作为图标</button>
-      <input type="file" id="imageInput" accept="image/*" style="display:none;">
-      <div id="imagePreview" style="margin:10px 0; text-align:center; display:none;">
-        <img id="previewImg" style="max-width:80px; max-height:80px; border-radius:12px; border:2px solid #9f7aea;">
-      </div>
-
-      <input id="addDesc" type="text" placeholder="描述（可选）">
-      <select id="addCategory">
-        <option value="常用工具">常用工具</option>
-        <option value="个人网站">个人网站</option>
-        <option value="学习资源">学习资源</option>
-        <option value="娱乐休闲">娱乐休闲</option>
-        <option value="其他">其他</option>
-      </select>
-      <button id="confirmAdd">✅ 保存书签</button>
-      <button id="cancelEdit" style="background:#ccc; color:#222;">取消</button>
-    </div>
-
-    <div id="bookmarksContainer"></div>
-
-    <div class="footer">
-      © 2026 二宝子<br>
-      联系方式：<a href="https://x.com/Eternity2099" target="_blank">@Eternity2099</a>
-    </div>
+<div class="container">
+  <div class="header">
+    <img class="avatar" src="https://picsum.photos/id/64/96/96" alt="二宝子">
+    <h1>二宝子</h1>
+    <div class="datetime" id="datetime"></div>
   </div>
 
-  <audio id="bgMusic" loop preload="auto">
-    <source src="https://files.catbox.moe/fawyem.flac" type="audio/flac">
-  </audio>
+  <div class="search-box">
+    <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
+  </div>
 
-  <script>
-    let bookmarks = [];
-    let isPlaying = false;
-    let editingIndex = -1;
-    let selectedImageBase64 = '';
-    const audio = document.getElementById('bgMusic');
+  <div class="controls">
+    <button id="themeToggle">☀️ 白天模式</button>
+    <button id="musicBtn">🎵 音乐</button>
+    <button id="addBtn">➕ 添加书签</button>
+    <button id="clearBtn">🗑️ 清空全部</button>
+  </div>
 
-    function tryAutoPlay() {
-      audio.volume = 0.32;
-      audio.play().then(() => {
-        isPlaying = true;
-        document.getElementById('musicBtn').textContent = '⏸️ 暂停音乐';
-      }).catch(() => {
-        document.getElementById('musicBtn').textContent = '🎵 点击播放音乐';
-      });
-    }
+  <div id="addForm" class="add-form" style="display:none">
+    <input id="addName" type="text" placeholder="书签名称" required>
+    <input id="addUrl" type="text" placeholder="网址 (https://...)" required>
+    <input id="addIcon" type="text" placeholder="Emoji 图标（可选）" value="🌐">
+    <button id="uploadImageBtn" style="background:#e0d4ff;color:#222">📷 选择本地图片作为图标</button>
+    <input type="file" id="imageInput" accept="image/*" style="display:none">
+    <div id="imagePreview" style="margin:10px 0;text-align:center;display:none">
+      <img id="previewImg" style="max-width:80px;max-height:80px;border-radius:12px;border:2px solid #9f7aea">
+    </div>
+    <input id="addDesc" type="text" placeholder="描述（可选）">
+    <select id="addCategory">
+      <option value="常用工具">常用工具</option>
+      <option value="个人网站">个人网站</option>
+      <option value="学习资源">学习资源</option>
+      <option value="娱乐休闲">娱乐休闲</option>
+      <option value="其他">其他</option>
+    </select>
+    <button id="confirmAdd">✅ 保存书签</button>
+    <button id="cancelEdit" style="background:#ccc;color:#222">取消</button>
+  </div>
 
-    function loadBookmarks() {
-      const saved = localStorage.getItem('erbaoBookmarks');
-      if (saved) bookmarks = JSON.parse(saved);
-      renderBookmarks();
-    }
+  <div id="bookmarksContainer"></div>
 
-    function saveBookmarks() {
-      localStorage.setItem('erbaoBookmarks', JSON.stringify(bookmarks));
-    }
+  <div class="footer">
+    © 2026 二宝子<br>
+    联系方式：<a href="https://x.com/Eternity2099" target="_blank">@Eternity2099</a>
+  </div>
+</div>
 
-    function renderBookmarks() {
-      const container = document.getElementById('bookmarksContainer');
-      container.innerHTML = '';
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://files.catbox.moe/fawyem.flac" type="audio/flac">
+</audio>
 
-      const groups = {};
-      bookmarks.forEach((item, index) => {
-        if (!groups[item.category]) groups[item.category] = [];
-        groups[item.category].push({item, index});
-      });
+<script>
+let bookmarks = [], isPlaying = false, editingIndex = -1, selectedImageBase64 = '';
+const audio = document.getElementById('bgMusic');
 
-      Object.keys(groups).forEach(cat => {
-        let html = `<div class="section-title">${cat}</div><div class="grid">`;
-        groups[cat].forEach(({item, index}) => {
-          const iconHtml = item.image ? 
-            `<img src="${item.image}" alt="${item.name}">` : 
-            `<span>${item.icon || '🔗'}</span>`;
+// 加载书签
+function loadBookmarks(){
+  const saved = localStorage.getItem('erbaoBookmarks');
+  bookmarks = saved ? JSON.parse(saved) : [];
+  renderBookmarks();
+}
 
-          html += `
-            <div class="card">
-              <div class="card-actions">
-                <button data-index="${index}" class="edit-btn">✏️</button>
-                <button data-index="${index}" class="delete-btn">🗑️</button>
-              </div>
-              <a href="${item.url}" target="_blank" rel="noopener" style="display:block;">
-                <div class="icon">${iconHtml}</div>
-                <h3>${item.name}</h3>
-                <p>${item.desc || ''}</p>
-              </a>
-            </div>`;
-        });
-        html += '</div>';
-        container.innerHTML += html;
-      });
+// 保存书签
+function saveBookmarks(){
+  localStorage.setItem('erbaoBookmarks', JSON.stringify(bookmarks));
+}
 
-      if (bookmarks.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:var(--muted); padding:60px 20px; font-size:15px;">
-          还没有书签～<br>点击「➕ 添加书签」开始吧
-        </p>`;
-      }
-
-      // 绑定编辑和删除事件
-      document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const idx = parseInt(btn.dataset.index);
-          editBookmark(idx);
-        });
-      });
-
-      document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const idx = parseInt(btn.dataset.index);
-          deleteBookmark(idx);
-        });
-      });
-    }
-
-    function editBookmark(index) {
-      const item = bookmarks[index];
-      editingIndex = index;
-
-      document.getElementById('addName').value = item.name;
-      document.getElementById('addUrl').value = item.url;
-      document.getElementById('addIcon').value = item.icon || '🌐';
-      document.getElementById('addDesc').value = item.desc || '';
-      document.getElementById('addCategory').value = item.category;
-
-      if (item.image) {
-        selectedImageBase64 = item.image;
-        document.getElementById('previewImg').src = item.image;
-        document.getElementById('imagePreview').style.display = 'block';
-      } else {
-        selectedImageBase64 = '';
-        document.getElementById('imagePreview').style.display = 'none';
-      }
-
-      document.getElementById('confirmAdd').textContent = '💾 保存修改';
-      document.getElementById('addForm').style.display = 'block';
-    }
-
-    function deleteBookmark(index) {
-      if (confirm('确定删除这个书签吗？')) {
-        bookmarks.splice(index, 1);
-        saveBookmarks();
-        renderBookmarks();
-      }
-    }
-
-    function updateDateTime() {
-      const dt = document.getElementById('datetime');
-      setInterval(() => {
-        const now = new Date();
-        const str = now.toLocaleString('zh-CN', {
-          year:'numeric', month:'2-digit', day:'2-digit',
-          weekday:'long', hour:'2-digit', minute:'2-digit', second:'2-digit'
-        });
-        dt.textContent = str.replace(',', '');
-      }, 1000);
-    }
-
-    // 搜索
-    document.getElementById('googleSearch').addEventListener('keypress', e => {
-      if (e.key === 'Enter') {
-        const q = encodeURIComponent(e.target.value.trim());
-        if (q) window.open(`https://www.google.com/search?q=${q}&hl=zh-CN`, '_blank');
-      }
+function renderBookmarks(){
+  const c = document.getElementById('bookmarksContainer');
+  c.innerHTML = '';
+  const groups = {};
+  bookmarks.forEach((item,i)=>{ 
+    if(!groups[item.category]) groups[item.category]=[];
+    groups[item.category].push({item,i});
+  });
+  Object.keys(groups).forEach(cat=>{
+    let h = `<div class="section-title">${cat}</div><div class="grid">`;
+    groups[cat].forEach(({item, i})=>{
+      const icon = item.image ? `<img src="${item.image}" alt="${item.name}">` : `<span>${item.icon||'🔗'}</span>`;
+      h += `<div class="card">
+        <div class="card-actions">
+          <button data-index="${i}" class="edit-btn">✏️</button>
+          <button data-index="${i}" class="delete-btn">🗑️</button>
+        </div>
+        <a href="${item.url}" target="_blank" style="display:block">
+          <div class="icon">${icon}</div>
+          <h3>${item.name}</h3>
+          <p>${item.desc||''}</p>
+        </a>
+      </div>`;
     });
+    h += '</div>';
+    c.innerHTML += h;
+  });
+  if(bookmarks.length===0){
+    c.innerHTML = `<p style="text-align:center;color:var(--muted);padding:60px 20px;font-size:15px">还没有书签～<br>点击「➕ 添加书签」开始吧</p>`;
+  }
+  document.querySelectorAll('.edit-btn').forEach(b=>b.onclick=e=>{e.preventDefault();editBookmark(parseInt(b.dataset.index))});
+  document.querySelectorAll('.delete-btn').forEach(b=>b.onclick=e=>{e.preventDefault();deleteBookmark(parseInt(b.dataset.index))});
+}
 
-    // 主题切换
-    document.getElementById('themeToggle').addEventListener('click', () => {
-      const isDark = document.body.getAttribute('data-theme') === 'dark';
-      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeToggle').textContent = isDark ? '☀️ 白天模式' : '🌙 夜晚模式';
-    });
+function editBookmark(i){
+  const item = bookmarks[i];
+  editingIndex = i;
+  document.getElementById('addName').value = item.name;
+  document.getElementById('addUrl').value = item.url;
+  document.getElementById('addIcon').value = item.icon || '🌐';
+  document.getElementById('addDesc').value = item.desc || '';
+  document.getElementById('addCategory').value = item.category;
+  if(item.image){
+    selectedImageBase64 = item.image;
+    document.getElementById('previewImg').src = item.image;
+    document.getElementById('imagePreview').style.display = 'block';
+  }else{
+    selectedImageBase64 = '';
+    document.getElementById('imagePreview').style.display = 'none';
+  }
+  document.getElementById('confirmAdd').textContent = '💾 保存修改';
+  document.getElementById('addForm').style.display = 'block';
+}
 
-    // 音乐
-    document.getElementById('musicBtn').addEventListener('click', () => {
-      if (isPlaying) {
-        audio.pause();
-        document.getElementById('musicBtn').textContent = '🎵 点击播放音乐';
-      } else {
-        audio.play();
-        document.getElementById('musicBtn').textContent = '⏸️ 暂停音乐';
-      }
-      isPlaying = !isPlaying;
-    });
+function deleteBookmark(i){
+  if(confirm('确定删除这个书签吗？')){
+    bookmarks.splice(i,1);
+    saveBookmarks();
+    renderBookmarks();
+  }
+}
 
-    // Cloudflare 登录
-    document.getElementById('cfLogin').addEventListener('click', () => window.open('https://dash.cloudflare.com/login', '_blank'));
+function updateDateTime(){
+  setInterval(()=>{
+    const str = new Date().toLocaleString('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'long',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    document.getElementById('datetime').textContent = str.replace(',','');
+  },1000);
+}
 
-    // GitHub 登录
-    document.getElementById('githubLogin').addEventListener('click', () => window.open('https://github.com/login', '_blank'));
+// 事件绑定
+document.getElementById('googleSearch').onkeypress = e=>{if(e.key==='Enter'){const q=encodeURIComponent(e.target.value.trim());if(q)window.open('https://www.google.com/search?q='+q+'&hl=zh-CN','_blank');}};
+document.getElementById('themeToggle').onclick = ()=>{const d=document.body.getAttribute('data-theme')==='dark';document.body.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeToggle').textContent=d?'☀️ 白天模式':'🌙 夜晚模式';};
+document.getElementById('musicBtn').onclick = ()=>{if(isPlaying){audio.pause();document.getElementById('musicBtn').textContent='🎵 点击播放音乐';}else{audio.play().catch(()=>{});document.getElementById('musicBtn').textContent='⏸️ 暂停音乐';}isPlaying=!isPlaying;};
+document.getElementById('addBtn').onclick = ()=>{editingIndex=-1;document.getElementById('confirmAdd').textContent='✅ 添加书签';document.getElementById('addForm').style.display='block';selectedImageBase64='';document.getElementById('imagePreview').style.display='none';};
+document.getElementById('uploadImageBtn').onclick = ()=>document.getElementById('imageInput').click();
+document.getElementById('imageInput').onchange = e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    selectedImageBase64 = ev.target.result;
+    document.getElementById('previewImg').src = selectedImageBase64;
+    document.getElementById('imagePreview').style.display = 'block';
+  };
+  r.readAsDataURL(f);
+};
+document.getElementById('confirmAdd').onclick = ()=>{
+  const name = document.getElementById('addName').value.trim();
+  const url = document.getElementById('addUrl').value.trim();
+  if(!name || !url) return alert('名称和网址不能为空！');
+  if(!url.startsWith('http')) return alert('网址必须以 http:// 或 https:// 开头');
+  const newItem = {
+    name, url,
+    icon: document.getElementById('addIcon').value.trim() || '🔗',
+    image: selectedImageBase64 || null,
+    desc: document.getElementById('addDesc').value.trim(),
+    category: document.getElementById('addCategory').value
+  };
+  if(editingIndex >= 0) bookmarks[editingIndex] = newItem;
+  else bookmarks.push(newItem);
+  saveBookmarks();
+  renderBookmarks();
+  document.getElementById('addForm').style.display = 'none';
+  selectedImageBase64 = '';
+};
+document.getElementById('cancelEdit').onclick = () => document.getElementById('addForm').style.display = 'none';
+document.getElementById('clearBtn').onclick = () => {
+  if(confirm('确定要清空所有书签吗？')){
+    bookmarks = [];
+    saveBookmarks();
+    renderBookmarks();
+  }
+};
 
-    // 添加书签
-    document.getElementById('addBtn').addEventListener('click', () => {
-      editingIndex = -1;
-      document.getElementById('confirmAdd').textContent = '✅ 添加书签';
-      document.getElementById('addForm').style.display = 'block';
-      selectedImageBase64 = '';
-      document.getElementById('imagePreview').style.display = 'none';
-    });
-
-    // 图片上传
-    document.getElementById('uploadImageBtn').addEventListener('click', () => document.getElementById('imageInput').click());
-
-    document.getElementById('imageInput').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        selectedImageBase64 = ev.target.result;
-        document.getElementById('previewImg').src = selectedImageBase64;
-        document.getElementById('imagePreview').style.display = 'block';
-      };
-      reader.readAsDataURL(file);
-    });
-
-    // 保存书签
-    document.getElementById('confirmAdd').addEventListener('click', () => {
-      const name = document.getElementById('addName').value.trim();
-      const url = document.getElementById('addUrl').value.trim();
-      const icon = document.getElementById('addIcon').value.trim() || '🔗';
-      const desc = document.getElementById('addDesc').value.trim();
-      const category = document.getElementById('addCategory').value;
-
-      if (!name || !url) return alert('名称和网址不能为空！');
-      if (!url.startsWith('http')) return alert('网址必须以 http:// 或 https:// 开头');
-
-      const newBookmark = { name, url, icon, image: selectedImageBase64 || null, desc, category };
-
-      if (editingIndex >= 0) {
-        bookmarks[editingIndex] = newBookmark;
-        alert('✅ 修改已保存！');
-      } else {
-        bookmarks.push(newBookmark);
-        alert('✅ 书签添加成功！');
-      }
-
-      saveBookmarks();
-      renderBookmarks();
-      document.getElementById('addForm').style.display = 'none';
-      selectedImageBase64 = '';
-    });
-
-    document.getElementById('cancelEdit').addEventListener('click', () => {
-      document.getElementById('addForm').style.display = 'none';
-    });
-
-    // 清空全部
-    document.getElementById('clearBtn').addEventListener('click', () => {
-      if (confirm('确定要清空所有书签吗？')) {
-        bookmarks = [];
-        localStorage.removeItem('erbaoBookmarks');
-        renderBookmarks();
-        alert('已清空所有书签');
-      }
-    });
-
-    // 初始化
-    window.onload = () => {
-      loadBookmarks();
-      updateDateTime();
-      tryAutoPlay();
-    };
-  </script>
+window.onload = () => {
+  loadBookmarks();
+  updateDateTime();
+  audio.volume = 0.32;
+  audio.play().catch(() => {});
+};
+</script>
 </body>
 </html>
