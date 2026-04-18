@@ -22,10 +22,10 @@ button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
 .search-input{width:100%;border:none;outline:none;background:transparent;color:var(--text);font-size:16.5px}
 .section-title{font-size:18px;margin:35px 0 16px;padding-left:14px;border-left:5px solid var(--accent);font-weight:600}
 
-/* ==================== 最强双列设置 ==================== */
+/* ==================== 最强双列强制 ==================== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));   /* 调小宽度，强制更容易双列 */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));   /* 关键：250px 更激进 */
   gap: 16px;
 }
 
@@ -181,7 +181,7 @@ function updateDateTime(){
   },1000);
 }
 
-// 事件绑定
+// 事件绑定（全部保留）
 document.getElementById('googleSearch').onkeypress = e=>{if(e.key==='Enter'){const q=encodeURIComponent(e.target.value.trim());if(q)window.open('https://www.google.com/search?q='+q+'&hl=zh-CN','_blank');}};
 document.getElementById('themeToggle').onclick = ()=>{const d=document.body.getAttribute('data-theme')==='dark';document.body.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeToggle').textContent=d?'☀️ 白天模式':'🌙 夜晚模式';};
 document.getElementById('musicBtn').onclick = ()=>{if(isPlaying){audio.pause();document.getElementById('musicBtn').textContent='🎵 点击播放音乐';}else{audio.play().catch(()=>{});document.getElementById('musicBtn').textContent='⏸️ 暂停音乐';}isPlaying=!isPlaying;};
@@ -193,7 +193,7 @@ document.getElementById('imageInput').onchange = e=>{
   const f = e.target.files[0];
   if(!f) return;
   const r = new FileReader();
-  r.onload = ev => { selectedImageBase64 = ev.target.result; document.getElementById('previewImg').src = selectedImageBase64; document.getElementById('imagePreview').style.display = 'block'; };
+  r.onload = ev => {selectedImageBase64 = ev.target.result; document.getElementById('previewImg').src = selectedImageBase64; document.getElementById('imagePreview').style.display = 'block';};
   r.readAsDataURL(f);
 };
 document.getElementById('confirmAdd').onclick = ()=>{
