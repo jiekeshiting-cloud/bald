@@ -28,18 +28,10 @@
       overflow-x: hidden;
     }
 
-    /* 粒子画布 */
-    #particles {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
+    #particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 
     .container { position:relative; z-index:2; width:100%; max-width:1180px; margin:0 auto; padding:20px 16px 80px; }
 
-    /* 跑马灯最顶部 */
     .marquee-container {
       margin: 12px 0 20px;
       padding: 14px 0;
@@ -48,7 +40,6 @@
       background: var(--glass);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(20px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
     .marquee {
       display: inline-block;
@@ -62,7 +53,7 @@
     }
     @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-100%);} }
 
-    .header { display:flex; flex-direction:column; align-items:center; gap:16px; margin-bottom:10px; }
+    .header { display:flex; flex-direction:column; align-items:center; gap:16px; margin-bottom:12px; }
     .hero {
       display:flex; flex-direction:column; align-items:center; text-align:center; gap:16px;
       padding:24px 20px; border:1px solid var(--glass-border); border-radius:28px;
@@ -87,7 +78,6 @@
     button {
       background:rgba(255,255,255,0.25); color:var(--text); border:1px solid rgba(165,180,252,0.4);
       padding:13px 22px; border-radius:999px; cursor:pointer; font-size:14.5px; min-width:130px;
-      transition: all 0.3s ease;
     }
     button:hover { background:rgba(165,180,252,0.3); transform:scale(1.05); }
 
@@ -136,11 +126,10 @@
   </style>
 </head>
 <body data-theme="dark">
-  <!-- 粒子背景 -->
   <canvas id="particles"></canvas>
 
   <div class="container">
-    <!-- 跑马灯最顶部 -->
+    <!-- 跑马灯 -->
     <div class="marquee-container">
       <div class="marquee">我命由我不由天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我命由我不由天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我命由我不由天</div>
     </div>
@@ -183,7 +172,7 @@
   <audio id="bgMusic" loop preload="auto"></audio>
 
   <script>
-    // ==================== 粒子动画（更亮、更炫） ====================
+    // ==================== 粒子动画 ====================
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -232,7 +221,7 @@
       initParticles();
     });
 
-    // ==================== 音乐自动播放优化 ====================
+    // ==================== 音乐（首次点击自动播放） ====================
     const audio = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicBtn');
     let isPlaying = false;
@@ -267,7 +256,7 @@
       musicBtn.textContent = `${status} ${musicList[currentMusicIndex].name} (${currentMusicIndex + 1}/4)`;
     }
 
-    // 用户首次点击任意位置 → 自动播放音乐
+    // 首次点击任意位置自动播放音乐
     document.addEventListener('click', () => {
       if (!hasUserInteracted) {
         hasUserInteracted = true;
@@ -276,7 +265,6 @@
       }
     }, { once: true });
 
-    // 按钮手动切换
     musicBtn.addEventListener('click', async () => {
       if (!hasUserInteracted) {
         hasUserInteracted = true;
@@ -298,15 +286,142 @@
       updateMusicButton();
     });
 
-    // ==================== 其他功能（保持） ====================
-    // （粒子、书签渲染、时间、天气、搜索、主题切换等保持不变）
-    // 这里省略了重复代码，你可以把之前版本的这些部分粘贴进来
+    // ==================== 修复后的导入导出 ====================
+    let categories = [
+      { title: "常用工具", cards: [
+        {icon:"🔎", name:"Google", desc:"全球最强搜索引擎", url:"https://www.google.com"},
+        {icon:"📧", name:"Gmail", desc:"邮件收发与管理", url:"https://mail.google.com"},
+        {icon:"📅", name:"Notion", desc:"全能笔记与知识库", url:"https://www.notion.so"},
+        {icon:"🌐", name:"百度", desc:"中文搜索", url:"https://www.baidu.com"}
+      ]},
+      { title: "设计创作", cards: [
+        {icon:"🎨", name:"Figma", desc:"界面设计与原型", url:"https://www.figma.com"},
+        {icon:"🖼️", name:"Canva", desc:"快速图形设计", url:"https://www.canva.com"},
+        {icon:"📸", name:"Photopea", desc:"免费在线PS", url:"https://www.photopea.com"}
+      ]},
+      { title: "学习资源", cards: [
+        {icon:"📚", name:"Bilibili", desc:"视频学习", url:"https://www.bilibili.com"},
+        {icon:"📖", name:"知乎", desc:"高质量问答", url:"https://www.zhihu.com"},
+        {icon:"🎥", name:"YouTube", desc:"全球视频", url:"https://www.youtube.com"}
+      ]},
+      { title: "开发工具", cards: [
+        {icon:"💻", name:"GitHub", desc:"代码托管", url:"https://github.com"},
+        {icon:"🤖", name:"ChatGPT", desc:"AI 助手", url:"https://chat.openai.com"},
+        {icon:"🔧", name:"Vercel", desc:"前端部署", url:"https://vercel.com"}
+      ]}
+    ];
+
+    // 导出
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const dataStr = JSON.stringify(categories, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '二宝子导航书签.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      alert('✅ 导出成功！文件已下载');
+    });
+
+    // 导入
+    document.getElementById('importBtn').addEventListener('click', () => {
+      document.getElementById('importFile').click();
+    });
+
+    document.getElementById('importFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const imported = JSON.parse(ev.target.result);
+          categories = imported;
+          renderSections();
+          alert('✅ 导入成功！页面已更新');
+        } catch (err) {
+          alert('❌ 导入失败：文件格式错误');
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // ==================== 渲染书签 ====================
+    function renderSections() {
+      const container = document.getElementById('sections');
+      container.innerHTML = '';
+      categories.forEach(cat => {
+        let html = `<div class="section-title">${cat.title}</div><div class="grid">`;
+        cat.cards.forEach(card => {
+          html += `<a class="card" href="${card.url}" target="_blank">
+            <div class="icon">${card.icon}</div>
+            <h3>${card.name}</h3>
+            <p>${card.desc}</p>
+          </a>`;
+        });
+        html += '</div>';
+        container.innerHTML += html;
+      });
+    }
+
+    // ==================== 时间 + 天气 ====================
+    function updateDateTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth()+1).padStart(2,'0');
+      const day = String(now.getDate()).padStart(2,'0');
+      const h = String(now.getHours()).padStart(2,'0');
+      const m = String(now.getMinutes()).padStart(2,'0');
+      const s = String(now.getSeconds()).padStart(2,'0');
+      const weekday = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'][now.getDay()];
+      document.getElementById('dateTime').textContent = `${year}年${month}月${day}日 ${weekday} ${h}:${m}:${s}`;
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    async function loadCityAndWeather() {
+      try {
+        const geo = await (await fetch('https://ipapi.co/json/')).json();
+        document.getElementById('cityName').textContent = geo.city || '我的城市';
+
+        const w = await (await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${geo.latitude||39.9}&longitude=${geo.longitude||116.4}&current=temperature_2m,relative_humidity_2m`)).json();
+        document.getElementById('temp').innerHTML = `${Math.round(w.current.temperature_2m)}°C`;
+        document.getElementById('humidity').textContent = w.current.relative_humidity_2m;
+      } catch(e) {}
+    }
+    loadCityAndWeather();
+
+    // 主题切换
+    const themeBtn = document.getElementById('themeBtn');
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeBtn.textContent = isDark ? '☀️ 深色模式' : '🌙 浅色模式';
+    }
+    themeBtn.addEventListener('click', toggleTheme);
+
+    // 搜索
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      const kw = searchInput.value.trim().toLowerCase();
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(kw) ? 'block' : 'none';
+      });
+    });
+
+    // 快捷键
+    document.addEventListener('keydown', e => {
+      if (e.key === '/' && document.activeElement !== searchInput) { e.preventDefault(); searchInput.focus(); }
+      if (e.key.toLowerCase() === 't') toggleTheme();
+      if (e.key === 'Escape') searchInput.blur();
+    });
 
     // 初始化
     resizeCanvas();
     initParticles();
     animateParticles();
-    renderSections();   // 你的书签渲染函数
+    renderSections();
     updateMusicButton();
   </script>
 </body>
