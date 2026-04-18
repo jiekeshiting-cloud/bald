@@ -21,7 +21,14 @@ button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
 .search-box{margin:20px 0 35px;padding:16px 20px;border-radius:999px;background:rgba(255,255,255,0.7);border:1px solid var(--border)}
 .search-input{width:100%;border:none;outline:none;background:transparent;color:var(--text);font-size:16.5px}
 .section-title{font-size:18px;margin:35px 0 16px;padding-left:14px;border-left:5px solid var(--accent);font-weight:600}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px} /* 优化双列显示 */
+
+/* 强制双列核心修改 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+
 .card{position:relative;display:block;text-decoration:none;color:var(--text);padding:20px 18px;border-radius:22px;background:var(--card);border:1px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,.05);transition:.3s}
 .card:hover{transform:translateY(-6px);box-shadow:0 18px 35px rgba(159,122,234,.18)}
 .card .icon{font-size:34px;margin-bottom:12px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden}
@@ -92,14 +99,12 @@ button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
 let bookmarks = [], isPlaying = false, editingIndex = -1, selectedImageBase64 = '';
 const audio = document.getElementById('bgMusic');
 
-// 加载书签
 function loadBookmarks(){
   const saved = localStorage.getItem('erbaoBookmarks');
   bookmarks = saved ? JSON.parse(saved) : [];
   renderBookmarks();
 }
 
-// 保存书签
 function saveBookmarks(){
   localStorage.setItem('erbaoBookmarks', JSON.stringify(bookmarks));
 }
