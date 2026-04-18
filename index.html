@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>二宝子的导航书签</title>
+  <style>
+    :root {
+      --bg1: #4f46e5; --bg2: #7c3aed; --bg3: #06b6d4;
+      --glass: rgba(255,255,255,0.13); --glass-border: rgba(255,255,255,0.25);
+      --text: #ffffff; --muted: rgba(255,255,255,0.82); --card-bg: rgba(255,255,255,0.14);
+    }
+    [data-theme="light"] {
+      --bg1: #6366f1; --bg2: #a855f7; --bg3: #22d3ee;
+      --glass: rgba(255,255,255,0.85); --glass-border: rgba(0,0,0,0.15);
+      --text: #1f2937; --muted: rgba(0,0,0,0.75); --card-bg: rgba(255,255,255,0.95);
+    }
+
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body {
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      background-size: cover;
+      line-height: 1.6;
+    }
+
+    .blur-ball {
+      position: fixed; border-radius: 50%; filter: blur(70px); opacity: 0.28; z-index: 0;
+      animation: float 18s ease-in-out infinite;
+    }
+    .ball1 { width: 220px; height: 220px; background: #60a5fa; top: 10%; left: 5%; }
+    .ball2 { width: 260px; height: 260px; background: #c084fc; right: 8%; top: 20%; animation-delay: -6s; }
+    .ball3 { width: 230px; height: 230px; background: #67e8f9; bottom: 15%; left: 25%; animation-delay: -11s; }
+    @keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(18px, -25px); } }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+    }
+
+    /* 跑马灯 - 手机优化 */
+    .marquee-container {
+      margin: 16px 0 20px;
+      padding: 14px 0;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.22);
+    }
+    .marquee {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 15.5px;
+      font-weight: 500;
+      color: var(--text);
+      padding-left: 100%;
+      animation: marquee 28s linear infinite;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
+    }
+
+    /* 精准日期时间 + 城市 */
+    .info-bar {
+      margin: 12px 0 20px;
+      padding: 16px 20px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      backdrop-filter: blur(18px);
+      font-size: 14.8px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 18px;
+      padding: 26px 24px;
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.25);
+      width: 100%;
+    }
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255,255,255,0.85);
+    }
+    .title-box h1 {
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+    .title-box p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    button {
+      background: rgba(255,255,255,0.22);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 12px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      min-width: 120px;
+      transition: all 0.3s ease;
+    }
+    button:hover, button:active {
+      background: rgba(255,255,255,0.4);
+      transform: scale(1.03);
+    }
+
+    .search-box {
+      margin: 12px 0 24px;
+      padding: 16px 20px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(16px);
+    }
+    .search-input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 16px;
+      padding: 4px 8px;
+    }
+
+    .section-title {
+      font-size: 17.5px;
+      margin: 32px 0 14px;
+      padding-left: 8px;
+      border-left: 4px solid rgba(255,255,255,0.7);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      display: block;
+      text-decoration: none;
+      color: var(--text);
+      padding: 22px 20px;
+      border-radius: 22px;
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.22);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      transition: all 0.28s ease;
+    }
+    .card:hover, .card:active {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+    }
+
+    .card .icon { font-size: 32px; margin-bottom: 12px; }
+    .card h3 { font-size: 17.5px; margin-bottom: 8px; }
+    .card p { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+    .weather {
+      margin: 16px 0;
+      padding: 16px 20px;
+      background: var(--glass);
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      font-size: 14.5px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+      text-align: center;
+    }
+
+    .footer {
+      margin-top: 70px;
+      text-align: center;
+      color: rgba(255,255,255,0.75);
+      font-size: 13.5px;
+    }
+
+    /* Tablet & Desktop 优化 */
+    @media (min-width: 768px) {
+      .container { padding: 40px 20px 80px; }
+      .header { flex-direction: row; justify-content: space-between; align-items: flex-start; }
+      .hero { flex-direction: row; text-align: left; width: auto; }
+      .avatar { width: 110px; height: 110px; }
+      .title-box h1 { font-size: 34px; }
+      .grid { gap: 22px; }
+      .weather { position: absolute; top: 20px; right: 20px; margin: 0; width: auto; }
+      .marquee { font-size: 17px; }
+      .info-bar { font-size: 15.5px; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="blur-ball ball1"></div>
+  <div class="blur-ball ball2"></div>
+  <div class="blur-ball ball3"></div>
+
+  <div class="container">
+    <div class="header">
+      <div class="hero">
+        <img class="avatar" src="avatar.jpg" alt="二宝子头像">
+        <div class="title-box">
+          <h1>二宝子的导航书签</h1>
+          <p>属于二宝子的专属小窝～</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="themeBtn">🌙 浅色模式</button>
+        <button id="exportBtn">📤 导出</button>
+        <button id="importBtn">📥 导入</button>
+        <input type="file" id="importFile" accept=".json" style="display:none;">
+      </div>
+    </div>
+
+    <!-- 精准日期 + 时间 + 城市 -->
+    <div class="info-bar" id="infoBar">
+      <span id="dateTime"></span>
+      <strong id="cityName"></strong>
+    </div>
+
+    <!-- 跑马灯 -->
+    <div class="marquee-container">
+      <div class="marquee">
+        我命由我不由天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        我命由我不由天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        我命由我不由天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+    </div>
+
+    <!-- 天气 -->
+    <div class="weather" id="weatherWidget">
+      <div id="weatherLoading">正在获取天气...</div>
+      <div id="weatherContent" style="display:none;">
+        <span id="temp"></span> | 湿度 <span id="humidity"></span>%
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input id="searchInput" class="search-input" type="text" 
+             placeholder="搜索书签...（按 / 聚焦）">
+    </div>
+
+    <!-- 分类分组 -->
+    <div id="sections"></div>
+
+    <div class="footer">
+      © 2026 二宝子的导航书签 · 按 T 切换主题 · 按 / 搜索
+    </div>
+  </div>
+
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // 书签数据（可自行添加更多）
+    const categories = [
+      { title: "常用工具", cards: [
+        {icon:"🔎", name:"Google", desc:"全球最强搜索引擎", url:"https://www.google.com"},
+        {icon:"📧", name:"Gmail", desc:"邮件收发与管理", url:"https://mail.google.com"},
+        {icon:"📅", name:"Notion", desc:"全能笔记与知识库", url:"https://www.notion.so"},
+        {icon:"🌐", name:"百度", desc:"中文搜索", url:"https://www.baidu.com"}
+      ]},
+      { title: "设计创作", cards: [
+        {icon:"🎨", name:"Figma", desc:"界面设计与原型", url:"https://www.figma.com"},
+        {icon:"🖼️", name:"Canva", desc:"快速图形设计", url:"https://www.canva.com"},
+        {icon:"📸", name:"Photopea", desc:"免费在线PS", url:"https://www.photopea.com"}
+      ]},
+      { title: "学习资源", cards: [
+        {icon:"📚", name:"Bilibili", desc:"视频学习", url:"https://www.bilibili.com"},
+        {icon:"📖", name:"知乎", desc:"高质量问答", url:"https://www.zhihu.com"},
+        {icon:"🎥", name:"YouTube", desc:"全球视频", url:"https://www.youtube.com"}
+      ]},
+      { title: "娱乐休闲", cards: [
+        {icon:"🎵", name:"网易云音乐", desc:"音乐与歌单", url:"https://music.163.com"},
+        {icon:"🎮", name:"Steam", desc:"游戏平台", url:"https://store.steampowered.com"},
+        {icon:"😂", name:"抖音", desc:"短视频", url:"https://www.douyin.com"}
+      ]},
+      { title: "开发工具", cards: [
+        {icon:"💻", name:"GitHub", desc:"代码托管", url:"https://github.com"},
+        {icon:"🤖", name:"ChatGPT", desc:"AI 助手", url:"https://chat.openai.com"},
+        {icon:"🔧", name:"Vercel", desc:"前端部署", url:"https://vercel.com"}
+      ]}
+    ];
+
+    function renderSections() {
+      const container = document.getElementById('sections');
+      container.innerHTML = '';
+      categories.forEach(cat => {
+        let html = `<div class="section-title">${cat.title}</div><div class="grid">`;
+        cat.cards.forEach(card => {
+          html += `
+            <a class="card" href="${card.url}" target="_blank">
+              <div class="icon">${card.icon}</div>
+              <h3>${card.name}</h3>
+              <p>${card.desc}</p>
+            </a>`;
+        });
+        html += '</div>';
+        container.innerHTML += html;
+      });
+    }
+
+    // 精准日期时间 + 城市
+    let currentCity = '';
+    function updateDateTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const weekday = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'][now.getDay()];
+
+      document.getElementById('dateTime').textContent = 
+        `${year}年${month}月${day}日 ${weekday} ${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    // 获取城市与天气
+    async function loadCityAndWeather() {
+      try {
+        const geoRes = await fetch('https://ipapi.co/json/');
+        const geo = await geoRes.json();
+        currentCity = geo.city || geo.region || '我的城市';
+        document.getElementById('cityName').textContent = ` · ${currentCity}`;
+
+        const lat = geo.latitude || 39.9;
+        const lon = geo.longitude || 116.4;
+        const wRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&timezone=auto`);
+        const data = await wRes.json();
+
+        document.getElementById('temp').innerHTML = `${Math.round(data.current.temperature_2m)}°C`;
+        document.getElementById('humidity').textContent = data.current.relative_humidity_2m;
+
+        document.getElementById('weatherLoading').style.display = 'none';
+        document.getElementById('weatherContent').style.display = 'block';
+      } catch (e) {
+        document.getElementById('cityName').textContent = ' · 未知城市';
+        document.getElementById('weatherLoading').textContent = '天气获取失败';
+      }
+    }
+    loadCityAndWeather();
+
+    // 主题切换
+    const themeBtn = document.getElementById('themeBtn');
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeBtn.textContent = isDark ? '☀️ 深色模式' : '🌙 浅色模式';
+    }
+    themeBtn.addEventListener('click', toggleTheme);
+
+    // 搜索
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      const kw = searchInput.value.trim().toLowerCase();
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(kw) ? 'block' : 'none';
+      });
+    });
+
+    // 快捷键
+    document.addEventListener('keydown', e => {
+      if (e.key === '/' && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+      if (e.key.toLowerCase() === 't') toggleTheme();
+      if (e.key === 'Escape') searchInput.blur();
+    });
+
+    // 导出 / 导入
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const dataStr = JSON.stringify(categories, null, 2);
+      const blob = new Blob([dataStr], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '二宝子导航书签.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    const importFileInput = document.getElementById('importFile');
+    document.getElementById('importBtn').addEventListener('click', () => importFileInput.click());
+    importFileInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const imported = JSON.parse(ev.target.result);
+          categories.length = 0;
+          categories.push(...imported);
+          renderSections();
+          alert('✅ 书签导入成功！');
+        } catch(err) {
+          alert('❌ 导入失败，文件格式错误');
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // 初始化
+    renderSections();
+  </script>
+</body>
+</html>
