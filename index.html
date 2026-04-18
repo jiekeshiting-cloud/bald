@@ -22,20 +22,28 @@ button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
 .search-input{width:100%;border:none;outline:none;background:transparent;color:var(--text);font-size:16.5px}
 .section-title{font-size:18px;margin:35px 0 16px;padding-left:14px;border-left:5px solid var(--accent);font-weight:600}
 
-/* ==================== 最强双列强制 ==================== */
+/* ==================== 固定双列（最暴力版） ==================== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));   /* 关键：250px 更激进 */
+  grid-template-columns: repeat(2, 1fr);     /* 直接固定两列 */
   gap: 16px;
 }
 
-.card{position:relative;display:block;text-decoration:none;color:var(--text);padding:18px 16px;border-radius:20px;background:var(--card);border:1px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,.05);transition:.3s}
-.card:hover{transform:translateY(-6px);box-shadow:0 18px 35px rgba(159,122,234,.18)}
-.card .icon{font-size:32px;margin-bottom:10px;width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden}
+/* 小屏幕时仍然保持两列，不自动变成一列 */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+.card{position:relative;display:block;text-decoration:none;color:var(--text);padding:16px 14px;border-radius:18px;background:var(--card);border:1px solid var(--border);box-shadow:0 6px 20px rgba(0,0,0,.06);transition:.3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(159,122,234,.20)}
+.card .icon{font-size:30px;margin-bottom:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:10px;overflow:hidden}
 .card .icon img{width:100%;height:100%;object-fit:cover}
-.card-actions{position:absolute;top:10px;right:10px;display:flex;gap:6px;opacity:0;transition:.2s}
+.card-actions{position:absolute;top:8px;right:8px;display:flex;gap:5px;opacity:0;transition:.2s}
 .card:hover .card-actions{opacity:1}
-.card-actions button{width:30px;height:30px;padding:0;font-size:15px;background:rgba(255,255,255,.95);border:1px solid #ddd;border-radius:8px}
+.card-actions button{width:28px;height:28px;padding:0;font-size:14px;background:rgba(255,255,255,.95);border:1px solid #ddd;border-radius:6px}
 
 .add-form{margin:30px 0;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:24px}
 .add-form input,.add-form select{width:100%;padding:13px 16px;margin-bottom:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
@@ -90,7 +98,7 @@ button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
 
   <div class="footer">
     © 2026 二宝子<br>
-    联系方式：<a href="https://x.com/Eternity2099" target="_blank">@Eternity2099</a>
+    联系方式：<a href="https://t.me/" target="_blank">@你的Telegram用户名</a>
   </div>
 </div>
 
@@ -181,7 +189,7 @@ function updateDateTime(){
   },1000);
 }
 
-// 事件绑定（全部保留）
+// 事件绑定
 document.getElementById('googleSearch').onkeypress = e=>{if(e.key==='Enter'){const q=encodeURIComponent(e.target.value.trim());if(q)window.open('https://www.google.com/search?q='+q+'&hl=zh-CN','_blank');}};
 document.getElementById('themeToggle').onclick = ()=>{const d=document.body.getAttribute('data-theme')==='dark';document.body.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeToggle').textContent=d?'☀️ 白天模式':'🌙 夜晚模式';};
 document.getElementById('musicBtn').onclick = ()=>{if(isPlaying){audio.pause();document.getElementById('musicBtn').textContent='🎵 点击播放音乐';}else{audio.play().catch(()=>{});document.getElementById('musicBtn').textContent='⏸️ 暂停音乐';}isPlaying=!isPlaying;};
