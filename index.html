@@ -6,71 +6,73 @@
   <title>二宝子</title>
   <style>
     :root {
-      --bg1: #0f0a2e;
-      --bg2: #2a0f5e;
-      --bg3: #4a1a8c;
-      --accent: #c4b5fd;
-      --glass: rgba(255,255,255,0.09);
-      --glass-border: rgba(180,160,255,0.35);
+      --bg: #ffffff;
+      --text: #1f1f1f;
+      --muted: #666666;
+      --accent: #a78bfa;
+      --card-bg: #f8f7ff;
+      --border: #e0d4ff;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f0a2e;
       --text: #ffffff;
-      --muted: rgba(255,255,255,0.78);
-      --card-bg: rgba(255,255,255,0.08);
+      --muted: #bbbbbb;
+      --accent: #c4b5fd;
+      --card-bg: #1a1450;
+      --border: #6b5ab0;
     }
 
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
       font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3), #6b1a9e);
-      background-size: 300% 300%;
-      animation: gradientShift 18s ease infinite;
-      background-attachment: fixed;
-      overflow-x: hidden;
+      transition: background 0.6s ease;
     }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    .container { 
+      position:relative; z-index:2; width:100%; max-width:1180px; 
+      margin:0 auto; padding:20px 16px 80px; 
     }
 
-    #particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
-
-    .container { position:relative; z-index:2; width:100%; max-width:1180px; margin:0 auto; padding:20px 16px 80px; }
-
-    .marquee-container {
-      margin: 12px 0 20px; padding: 14px 0; overflow:hidden; border-radius:999px;
-      background:var(--glass); border:1px solid var(--glass-border); backdrop-filter:blur(20px);
+    .header { 
+      text-align:center; margin-bottom:25px; 
     }
-    .marquee { 
-      display:inline-block; white-space:nowrap; font-size:16.5px; font-weight:600;
-      color:var(--accent); padding-left:100%; animation:marquee 28s linear infinite; 
+    .avatar { 
+      width:92px; height:92px; border-radius:50%; object-fit:cover; 
+      border:4px solid var(--accent); margin-bottom:12px;
     }
-    @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-100%);} }
+    .title-box h1 { 
+      font-size:31px; font-weight:700; margin-bottom:8px; 
+    }
+    .datetime { 
+      font-size:15.5px; color:var(--muted); font-weight:500; 
+    }
 
-    .header { display:flex; flex-direction:column; align-items:center; gap:12px; margin-bottom:20px; text-align:center; }
-    .hero {
-      padding:24px 20px; border:1px solid var(--glass-border); border-radius:28px;
-      background:var(--glass); backdrop-filter:blur(22px); width:100%;
+    .controls { 
+      display:flex; gap:12px; flex-wrap:wrap; justify-content:center; 
+      margin:20px 0 30px; 
     }
-    .avatar { width:88px; height:88px; border-radius:50%; object-fit:cover; border:4px solid rgba(180,160,255,0.7); }
-    .title-box h1 { font-size:32px; letter-spacing:2px; margin-bottom:6px; }
-    .title-box .datetime { font-size:15.5px; color:var(--muted); font-weight:500; }
+    button {
+      background:rgba(167,139,250,0.15); color:var(--text); 
+      border:1px solid var(--border); padding:12px 22px; 
+      border-radius:999px; cursor:pointer; font-size:15px;
+      transition: all 0.3s ease;
+    }
+    button:hover { 
+      background:rgba(167,139,250,0.3); transform:scale(1.05); 
+    }
 
     .search-box {
       margin:20px 0 30px; padding:16px 20px; border-radius:999px;
-      background:rgba(255,255,255,0.12); border:1px solid rgba(180,160,255,0.4); backdrop-filter:blur(18px);
+      background:rgba(167,139,250,0.08); border:1px solid var(--border);
     }
-    .search-input { width:100%; border:none; outline:none; background:transparent; color:var(--text); font-size:16.5px; }
-
-    .controls { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:20px; }
-    button {
-      background:rgba(255,255,255,0.22); color:var(--text); border:1px solid rgba(180,160,255,0.45);
-      padding:13px 24px; border-radius:999px; cursor:pointer; font-size:14.8px;
-      transition: all 0.3s ease;
+    .search-input { 
+      width:100%; border:none; outline:none; background:transparent; 
+      color:var(--text); font-size:16.5px; 
     }
-    button:hover { background:rgba(180,160,255,0.35); transform:scale(1.05); }
 
     .section-title { 
       font-size:18px; margin:32px 0 16px; padding-left:14px; 
@@ -78,108 +80,105 @@
     }
 
     .grid { 
-      display:grid; 
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-      gap:18px; 
+      display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:18px; 
     }
 
     .card {
-      display:block; text-decoration:none; color:var(--text); padding:20px 18px; border-radius:22px;
-      background:var(--card-bg); border:1px solid rgba(180,160,255,0.25); 
-      backdrop-filter:blur(14px); box-shadow:0 10px 25px rgba(0,0,0,0.35);
+      display:block; text-decoration:none; color:var(--text); 
+      padding:20px 18px; border-radius:22px;
+      background:var(--card-bg); border:1px solid var(--border);
+      box-shadow:0 8px 20px rgba(0,0,0,0.06);
       transition:all 0.3s ease;
     }
     .card:hover { 
-      transform:translateY(-8px); 
-      box-shadow:0 25px 55px rgba(180,160,255,0.3);
-      border-color: rgba(180,160,255,0.55);
+      transform:translateY(-6px); box-shadow:0 15px 30px rgba(167,139,250,0.25);
     }
 
-    .card .icon { font-size:33px; margin-bottom:12px; }
+    .card .icon { font-size:32px; margin-bottom:12px; }
     .card h3 { font-size:17px; margin-bottom:8px; }
-    .card p { font-size:13.5px; color:var(--muted); line-height:1.5; }
+    .card p { font-size:13.5px; color:var(--muted); }
 
     .add-form {
-      margin:30px 0; padding:24px; background:var(--glass); border:1px solid var(--glass-border);
-      border-radius:24px; backdrop-filter:blur(20px);
+      margin:25px 0; padding:22px; background:var(--card-bg); 
+      border:1px solid var(--border); border-radius:24px;
     }
-    .add-form input, .add-form select, .add-form textarea {
-      width:100%; padding:12px 16px; margin-bottom:12px; border-radius:12px;
-      border:1px solid rgba(180,160,255,0.3); background:rgba(255,255,255,0.08);
-      color:var(--text); font-size:15px;
+    .add-form input, .add-form select {
+      width:100%; padding:12px 16px; margin-bottom:12px; 
+      border-radius:12px; border:1px solid var(--border);
+      background:var(--bg); color:var(--text);
     }
     .add-form button { width:100%; padding:14px; font-size:16px; }
 
-    .footer { margin-top:60px; text-align:center; color:rgba(255,255,255,0.65); font-size:13.5px; }
+    .footer { 
+      margin-top:70px; text-align:center; color:var(--muted); 
+      font-size:14px; 
+    }
+
+    .footer a { color:var(--accent); text-decoration:none; }
   </style>
 </head>
-<body data-theme="dark">
-  <canvas id="particles"></canvas>
-
+<body data-theme="light">
   <div class="container">
-    <div class="marquee-container">
-      <div class="marquee">我命由我不由天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我命由我不由天&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我命由我不由天</div>
-    </div>
 
     <div class="header">
-      <div class="hero">
-        <img class="avatar" src="avatar.jpg" alt="二宝子头像">
-        <div class="title-box">
-          <h1>二宝子</h1>
-          <div class="datetime" id="datetime"></div>
-        </div>
+      <img class="avatar" src="avatar.jpg" alt="二宝子">
+      <div class="title-box">
+        <h1>二宝子</h1>
+        <div class="datetime" id="datetime"></div>
       </div>
     </div>
 
-    <!-- 谷歌搜索框 -->
+    <!-- 谷歌搜索 -->
     <div class="search-box">
       <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
     </div>
 
     <div class="controls">
+      <button id="themeToggle">☀️ 白天模式</button>
+      <button id="musicBtn">🎵 播放音乐</button>
       <button id="addBtn">➕ 添加书签</button>
-      <button id="themeBtn">🌙 浅色模式</button>
     </div>
 
-    <!-- 添加书签表单（默认隐藏） -->
-    <div id="addForm" class="add-form" style="display: none;">
-      <input id="addName" type="text" placeholder="书签名称（如：我的网站）" required>
-      <input id="addUrl" type="text" placeholder="网址（如：https://jierry-alt.github.io/）" required>
-      <input id="addIcon" type="text" placeholder="图标（Emoji，如：🌟）" value="🌐">
+    <!-- 添加书签表单 -->
+    <div id="addForm" class="add-form" style="display:none;">
+      <input id="addName" type="text" placeholder="书签名称" required>
+      <input id="addUrl" type="text" placeholder="网址 (https://...)" required>
+      <input id="addIcon" type="text" placeholder="图标 Emoji（如 🌟）" value="🌐">
       <input id="addDesc" type="text" placeholder="描述（可选）">
       <select id="addCategory">
         <option value="常用工具">常用工具</option>
+        <option value="个人网站">个人网站</option>
         <option value="学习资源">学习资源</option>
         <option value="娱乐休闲">娱乐休闲</option>
-        <option value="个人网站">个人网站</option>
         <option value="其他">其他</option>
       </select>
-      <button id="confirmAdd">✅ 添加到书签</button>
+      <button id="confirmAdd">✅ 添加书签</button>
     </div>
 
-    <!-- 书签显示区域 -->
+    <!-- 书签区域 -->
     <div id="bookmarksContainer"></div>
 
     <div class="footer">
-      © 2026 二宝子 · 按 T 切换主题 · 按 / 聚焦搜索
+      © 2026 二宝子<br>
+      联系方式：<a href="https://x.com/Eternity2099" target="_blank">@Eternity2099</a>
     </div>
   </div>
 
-  <audio id="bgMusic" loop preload="auto"></audio>
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://files.catbox.moe/fawyem.flac" type="audio/flac">
+  </audio>
 
   <script>
     let bookmarks = [];
+    let isPlaying = false;
+    const audio = document.getElementById('bgMusic');
 
-    // 从本地加载书签
     function loadBookmarks() {
       const saved = localStorage.getItem('erbaoBookmarks');
-      if (saved) {
-        bookmarks = JSON.parse(saved);
-      }
+      if (saved) bookmarks = JSON.parse(saved);
       renderBookmarks();
     }
 
-    // 保存到本地
     function saveBookmarks() {
       localStorage.setItem('erbaoBookmarks', JSON.stringify(bookmarks));
     }
@@ -188,7 +187,6 @@
       const container = document.getElementById('bookmarksContainer');
       container.innerHTML = '';
 
-      // 按分类分组显示
       const groups = {};
       bookmarks.forEach(item => {
         if (!groups[item.category]) groups[item.category] = [];
@@ -210,37 +208,57 @@
       });
 
       if (bookmarks.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:var(--muted); padding:40px;">还没有书签，点击上方「➕ 添加书签」开始吧～</p>`;
+        container.innerHTML = `<p style="text-align:center; color:var(--muted); padding:50px 20px;">还没有书签哦～ 点击上方「➕ 添加书签」添加吧</p>`;
       }
     }
 
-    // 时间显示
+    // 时间日期
     function updateDateTime() {
       const dt = document.getElementById('datetime');
       setInterval(() => {
         const now = new Date();
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'long', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        dt.textContent = now.toLocaleString('zh-CN', options).replace(',', '');
+        const str = now.toLocaleString('zh-CN', {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          weekday: 'long', hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        dt.textContent = str.replace(',', '');
       }, 1000);
     }
 
     // 谷歌搜索
-    document.getElementById('googleSearch').addEventListener('keypress', (e) => {
+    document.getElementById('googleSearch').addEventListener('keypress', e => {
       if (e.key === 'Enter') {
-        const query = encodeURIComponent(e.target.value.trim());
-        if (query) {
-          window.open(`https://www.google.com/search?q=${query}&hl=zh-CN`, '_blank');
-        }
+        const q = encodeURIComponent(e.target.value.trim());
+        if (q) window.open(`https://www.google.com/search?q=${q}&hl=zh-CN`, '_blank');
       }
     });
 
-    // 添加书签按钮
+    // 主题切换
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const body = document.body;
+      const isDark = body.getAttribute('data-theme') === 'dark';
+      body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeToggle').textContent = isDark ? '☀️ 白天模式' : '🌙 夜晚模式';
+    });
+
+    // 音乐播放
+    document.getElementById('musicBtn').addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+        document.getElementById('musicBtn').textContent = '🎵 播放音乐';
+      } else {
+        audio.play().catch(() => alert('音乐加载失败，请检查网络'));
+        document.getElementById('musicBtn').textContent = '⏸️ 暂停音乐';
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // 添加书签
     document.getElementById('addBtn').addEventListener('click', () => {
       const form = document.getElementById('addForm');
       form.style.display = form.style.display === 'none' ? 'block' : 'none';
     });
 
-    // 确认添加
     document.getElementById('confirmAdd').addEventListener('click', () => {
       const name = document.getElementById('addName').value.trim();
       const url = document.getElementById('addUrl').value.trim();
@@ -248,21 +266,15 @@
       const desc = document.getElementById('addDesc').value.trim();
       const category = document.getElementById('addCategory').value;
 
-      if (!name || !url) {
-        alert('书签名称和网址不能为空！');
-        return;
-      }
+      if (!name || !url) return alert('名称和网址不能为空');
 
-      if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        alert('网址必须以 http:// 或 https:// 开头');
-        return;
-      }
+      if (!url.startsWith('http')) return alert('网址必须以 http:// 或 https:// 开头');
 
       bookmarks.push({ name, url, icon, desc, category });
       saveBookmarks();
       renderBookmarks();
 
-      // 清空表单并隐藏
+      // 清空表单
       document.getElementById('addName').value = '';
       document.getElementById('addUrl').value = '';
       document.getElementById('addDesc').value = '';
