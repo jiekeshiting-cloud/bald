@@ -50,6 +50,7 @@
     .title-box h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
     .datetime { font-size: 15.8px; color: var(--muted); }
 
+    /* 所有按钮统一双列排列 */
     .controls {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -150,16 +151,19 @@
       <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
     </div>
 
+    <!-- 双列按钮区域（全部统一） -->
     <div class="controls">
       <button id="themeToggle">☀️ 白天模式</button>
       <button id="musicBtn">🎵 音乐</button>
+      
       <button id="cfLogin">🔐 Cloudflare 登录</button>
-      <button id="gmailLogin">✉️ Google 邮箱登录</button>
+      <button id="githubLogin">🐙 GitHub 登录</button>
+      
       <button id="addBtn">➕ 添加书签</button>
       <button id="clearBtn">🗑️ 清空全部</button>
     </div>
 
-    <!-- 添加/编辑表单 -->
+    <!-- 添加/编辑书签表单 -->
     <div id="addForm" class="add-form" style="display: none;">
       <input id="addName" type="text" placeholder="书签名称" required>
       <input id="addUrl" type="text" placeholder="网址 (https://...)" required>
@@ -262,7 +266,7 @@
         </p>`;
       }
 
-      // 绑定编辑和删除按钮事件
+      // 绑定编辑和删除事件
       document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -323,7 +327,7 @@
       }, 1000);
     }
 
-    // 其他按钮事件
+    // 搜索
     document.getElementById('googleSearch').addEventListener('keypress', e => {
       if (e.key === 'Enter') {
         const q = encodeURIComponent(e.target.value.trim());
@@ -331,12 +335,14 @@
       }
     });
 
+    // 主题切换
     document.getElementById('themeToggle').addEventListener('click', () => {
       const isDark = document.body.getAttribute('data-theme') === 'dark';
       document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
       document.getElementById('themeToggle').textContent = isDark ? '☀️ 白天模式' : '🌙 夜晚模式';
     });
 
+    // 音乐
     document.getElementById('musicBtn').addEventListener('click', () => {
       if (isPlaying) {
         audio.pause();
@@ -348,9 +354,13 @@
       isPlaying = !isPlaying;
     });
 
+    // Cloudflare 登录
     document.getElementById('cfLogin').addEventListener('click', () => window.open('https://dash.cloudflare.com/login', '_blank'));
-    document.getElementById('gmailLogin').addEventListener('click', () => window.open('https://accounts.google.com/signin', '_blank'));
 
+    // GitHub 登录
+    document.getElementById('githubLogin').addEventListener('click', () => window.open('https://github.com/login', '_blank'));
+
+    // 添加书签
     document.getElementById('addBtn').addEventListener('click', () => {
       editingIndex = -1;
       document.getElementById('confirmAdd').textContent = '✅ 添加书签';
@@ -359,6 +369,7 @@
       document.getElementById('imagePreview').style.display = 'none';
     });
 
+    // 图片上传
     document.getElementById('uploadImageBtn').addEventListener('click', () => document.getElementById('imageInput').click());
 
     document.getElementById('imageInput').addEventListener('change', (e) => {
@@ -373,6 +384,7 @@
       reader.readAsDataURL(file);
     });
 
+    // 保存书签
     document.getElementById('confirmAdd').addEventListener('click', () => {
       const name = document.getElementById('addName').value.trim();
       const url = document.getElementById('addUrl').value.trim();
@@ -403,6 +415,7 @@
       document.getElementById('addForm').style.display = 'none';
     });
 
+    // 清空全部
     document.getElementById('clearBtn').addEventListener('click', () => {
       if (confirm('确定要清空所有书签吗？')) {
         bookmarks = [];
