@@ -114,8 +114,10 @@
     .card:hover .card-actions { opacity: 1; }
 
     .card-actions button {
-      width: 28px; height: 28px; padding: 0; font-size: 14px;
-      background: rgba(255,255,255,0.9);
+      width: 32px; height: 32px; padding: 0; font-size: 16px;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #ddd;
+      border-radius: 8px;
     }
 
     .add-form {
@@ -157,7 +159,7 @@
       <button id="clearBtn">🗑️ 清空全部</button>
     </div>
 
-    <!-- 添加/编辑书签表单 -->
+    <!-- 添加/编辑表单 -->
     <div id="addForm" class="add-form" style="display: none;">
       <input id="addName" type="text" placeholder="书签名称" required>
       <input id="addUrl" type="text" placeholder="网址 (https://...)" required>
@@ -196,14 +198,18 @@
   <script>
     let bookmarks = [];
     let isPlaying = false;
-    let editingIndex = -1;           // 当前正在编辑的书签索引
+    let editingIndex = -1;
     let selectedImageBase64 = '';
     const audio = document.getElementById('bgMusic');
 
     function tryAutoPlay() {
       audio.volume = 0.32;
-      audio.play().then(() => { isPlaying = true; document.getElementById('musicBtn').textContent = '⏸️ 暂停音乐'; })
-        .catch(() => { document.getElementById('musicBtn').textContent = '🎵 点击播放音乐'; });
+      audio.play().then(() => {
+        isPlaying = true;
+        document.getElementById('musicBtn').textContent = '⏸️ 暂停音乐';
+      }).catch(() => {
+        document.getElementById('musicBtn').textContent = '🎵 点击播放音乐';
+      });
     }
 
     function loadBookmarks() {
@@ -236,8 +242,8 @@
           html += `
             <div class="card">
               <div class="card-actions">
-                <button onclick="editBookmark(${index})">✏️</button>
-                <button onclick="deleteBookmark(${index})">🗑️</button>
+                <button data-index="${index}" class="edit-btn">✏️</button>
+                <button data-index="${index}" class="delete-btn">🗑️</button>
               </div>
               <a href="${item.url}" target="_blank" rel="noopener" style="display:block;">
                 <div class="icon">${iconHtml}</div>
@@ -255,10 +261,26 @@
           还没有书签～<br>点击「➕ 添加书签」开始吧
         </p>`;
       }
+
+      // 绑定编辑和删除按钮事件
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const idx = parseInt(btn.dataset.index);
+          editBookmark(idx);
+        });
+      });
+
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const idx = parseInt(btn.dataset.index);
+          deleteBookmark(idx);
+        });
+      });
     }
 
-    // 编辑书签
-    window.editBookmark = function(index) {
+    function editBookmark(index) {
       const item = bookmarks[index];
       editingIndex = index;
 
@@ -279,27 +301,29 @@
 
       document.getElementById('confirmAdd').textContent = '💾 保存修改';
       document.getElementById('addForm').style.display = 'block';
-    };
+    }
 
-    // 删除单个书签
-    window.deleteBookmark = function(index) {
-      if (confirm('确定要删除这个书签吗？')) {
+    function deleteBookmark(index) {
+      if (confirm('确定删除这个书签吗？')) {
         bookmarks.splice(index, 1);
         saveBookmarks();
         renderBookmarks();
       }
-    };
+    }
 
     function updateDateTime() {
       const dt = document.getElementById('datetime');
       setInterval(() => {
         const now = new Date();
-        const str = now.toLocaleString('zh-CN', {year:'numeric', month:'2-digit', day:'2-digit', weekday:'long', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+        const str = now.toLocaleString('zh-CN', {
+          year:'numeric', month:'2-digit', day:'2-digit',
+          weekday:'long', hour:'2-digit', minute:'2-digit', second:'2-digit'
+        });
         dt.textContent = str.replace(',', '');
       }, 1000);
     }
 
-    // 其他功能保持不变（谷歌搜索、主题切换、音乐、登录按钮等）
+    // 其他按钮事件
     document.getElementById('googleSearch').addEventListener('keypress', e => {
       if (e.key === 'Enter') {
         const q = encodeURIComponent(e.target.value.trim());
@@ -327,7 +351,6 @@
     document.getElementById('cfLogin').addEventListener('click', () => window.open('https://dash.cloudflare.com/login', '_blank'));
     document.getElementById('gmailLogin').addEventListener('click', () => window.open('https://accounts.google.com/signin', '_blank'));
 
-    // 添加 / 编辑书签
     document.getElementById('addBtn').addEventListener('click', () => {
       editingIndex = -1;
       document.getElementById('confirmAdd').textContent = '✅ 添加书签';
@@ -378,11 +401,10 @@
 
     document.getElementById('cancelEdit').addEventListener('click', () => {
       document.getElementById('addForm').style.display = 'none';
-      selectedImageBase64 = '';
     });
 
     document.getElementById('clearBtn').addEventListener('click', () => {
-      if (confirm('确定要清空所有书签吗？此操作不可恢复！')) {
+      if (confirm('确定要清空所有书签吗？')) {
         bookmarks = [];
         localStorage.removeItem('erbaoBookmarks');
         renderBookmarks();
