@@ -22,28 +22,28 @@ button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
 .search-input{width:100%;border:none;outline:none;background:transparent;color:var(--text);font-size:16.5px}
 .section-title{font-size:18px;margin:35px 0 16px;padding-left:14px;border-left:5px solid var(--accent);font-weight:600}
 
-/* ==================== 固定双列（最暴力版） ==================== */
+/* 固定双列 - 最直接暴力版 */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);     /* 直接固定两列 */
-  gap: 16px;
+ display: grid;
+ grid-template-columns: 1fr 1fr; /* 直接固定两列 */
+ gap: 16px;
 }
 
-/* 小屏幕时仍然保持两列，不自动变成一列 */
-@media (max-width: 600px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
+/* 小屏幕也强制保持两列 */
+@media (max-width: 640px) {
+ .grid {
+ grid-template-columns: 1fr 1fr;
+ gap: 14px;
+ }
 }
 
-.card{position:relative;display:block;text-decoration:none;color:var(--text);padding:16px 14px;border-radius:18px;background:var(--card);border:1px solid var(--border);box-shadow:0 6px 20px rgba(0,0,0,.06);transition:.3s}
-.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(159,122,234,.20)}
-.card .icon{font-size:30px;margin-bottom:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:10px;overflow:hidden}
+.card{position:relative;display:block;text-decoration:none;color:var(--text);padding:16px 14px;border-radius:18px;background:var(--card);border:1px solid var(--border);box-shadow:0 8px 20px rgba(0,0,0,.06);transition:.3s}
+.card:hover{transform:translateY(-5px);box-shadow:0 16px 30px rgba(159,122,234,.18)}
+.card .icon{font-size:30px;margin-bottom:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden}
 .card .icon img{width:100%;height:100%;object-fit:cover}
-.card-actions{position:absolute;top:8px;right:8px;display:flex;gap:5px;opacity:0;transition:.2s}
+.card-actions{position:absolute;top:10px;right:10px;display:flex;gap:6px;opacity:0;transition:.2s}
 .card:hover .card-actions{opacity:1}
-.card-actions button{width:28px;height:28px;padding:0;font-size:14px;background:rgba(255,255,255,.95);border:1px solid #ddd;border-radius:6px}
+.card-actions button{width:28px;height:28px;padding:0;font-size:15px;background:rgba(255,255,255,.95);border:1px solid #ddd;border-radius:8px}
 
 .add-form{margin:30px 0;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:24px}
 .add-form input,.add-form select{width:100%;padding:13px 16px;margin-bottom:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
@@ -54,56 +54,56 @@ button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
 </head>
 <body data-theme="light">
 <div class="container">
-  <div class="header">
-    <img class="avatar" src="https://picsum.photos/id/64/96/96" alt="二宝子">
-    <h1>二宝子</h1>
-    <div class="datetime" id="datetime"></div>
-  </div>
+ <div class="header">
+ <img class="avatar" src="https://picsum.photos/id/64/96/96" alt="二宝子">
+ <h1>二宝子</h1>
+ <div class="datetime" id="datetime"></div>
+ </div>
 
-  <div class="search-box">
-    <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
-  </div>
+ <div class="search-box">
+ <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
+ </div>
 
-  <div class="controls">
-    <button id="themeToggle">☀️ 白天模式</button>
-    <button id="musicBtn">🎵 音乐</button>
-    <button id="cfLogin">🔐 Cloudflare 登录</button>
-    <button id="githubLogin">🐙 GitHub 登录</button>
-    <button id="addBtn">➕ 添加书签</button>
-    <button id="clearBtn">🗑️ 清空全部</button>
-  </div>
+ <div class="controls">
+ <button id="themeToggle">☀️ 白天模式</button>
+ <button id="musicBtn">🎵 音乐</button>
+ <button id="cfLogin">🔐 Cloudflare 登录</button>
+ <button id="githubLogin">🐙 GitHub 登录</button>
+ <button id="addBtn">➕ 添加书签</button>
+ <button id="clearBtn">🗑️ 清空全部</button>
+ </div>
 
-  <div id="addForm" class="add-form" style="display:none">
-    <input id="addName" type="text" placeholder="书签名称" required>
-    <input id="addUrl" type="text" placeholder="网址 (https://...)" required>
-    <input id="addIcon" type="text" placeholder="Emoji 图标（可选）" value="🌐">
-    <button id="uploadImageBtn" style="background:#e0d4ff;color:#222">📷 选择本地图片作为图标</button>
-    <input type="file" id="imageInput" accept="image/*" style="display:none">
-    <div id="imagePreview" style="margin:10px 0;text-align:center;display:none">
-      <img id="previewImg" style="max-width:80px;max-height:80px;border-radius:12px;border:2px solid #9f7aea">
-    </div>
-    <input id="addDesc" type="text" placeholder="描述（可选）">
-    <select id="addCategory">
-      <option value="常用工具">常用工具</option>
-      <option value="个人网站">个人网站</option>
-      <option value="学习资源">学习资源</option>
-      <option value="娱乐休闲">娱乐休闲</option>
-      <option value="其他">其他</option>
-    </select>
-    <button id="confirmAdd">✅ 保存书签</button>
-    <button id="cancelEdit" style="background:#ccc;color:#222">取消</button>
-  </div>
+ <div id="addForm" class="add-form" style="display:none">
+ <input id="addName" type="text" placeholder="书签名称" required>
+ <input id="addUrl" type="text" placeholder="网址 (https://...)" required>
+ <input id="addIcon" type="text" placeholder="Emoji 图标（可选）" value="🌐">
+ <button id="uploadImageBtn" style="background:#e0d4ff;color:#222">📷 选择本地图片作为图标</button>
+ <input type="file" id="imageInput" accept="image/*" style="display:none">
+ <div id="imagePreview" style="margin:10px 0;text-align:center;display:none">
+ <img id="previewImg" style="max-width:80px;max-height:80px;border-radius:12px;border:2px solid #9f7aea">
+ </div>
+ <input id="addDesc" type="text" placeholder="描述（可选）">
+ <select id="addCategory">
+ <option value="常用工具">常用工具</option>
+ <option value="个人网站">个人网站</option>
+ <option value="学习资源">学习资源</option>
+ <option value="娱乐休闲">娱乐休闲</option>
+ <option value="其他">其他</option>
+ </select>
+ <button id="confirmAdd">✅ 保存书签</button>
+ <button id="cancelEdit" style="background:#ccc;color:#222">取消</button>
+ </div>
 
-  <div id="bookmarksContainer"></div>
+ <div id="bookmarksContainer"></div>
 
-  <div class="footer">
-    © 2026 二宝子<br>
-    联系方式：<a href="https://t.me/" target="_blank">@你的Telegram用户名</a>
-  </div>
+ <div class="footer">
+ © 2026 二宝子<br>
+ 联系方式：<a href="https://t.me/你的TG用户名" target="_blank">@你的TG</a>
+ </div>
 </div>
 
 <audio id="bgMusic" loop preload="auto">
-  <source src="https://files.catbox.moe/fawyem.flac" type="audio/flac">
+ <source src="https://files.catbox.moe/fawyem.flac" type="audio/flac">
 </audio>
 
 <script>
@@ -111,85 +111,84 @@ let bookmarks = [], isPlaying = false, editingIndex = -1, selectedImageBase64 = 
 const audio = document.getElementById('bgMusic');
 
 function loadBookmarks(){
-  const saved = localStorage.getItem('erbaoBookmarks');
-  bookmarks = saved ? JSON.parse(saved) : [];
-  renderBookmarks();
+ const saved = localStorage.getItem('erbaoBookmarks');
+ bookmarks = saved ? JSON.parse(saved) : [];
+ renderBookmarks();
 }
 
 function saveBookmarks(){
-  localStorage.setItem('erbaoBookmarks', JSON.stringify(bookmarks));
+ localStorage.setItem('erbaoBookmarks', JSON.stringify(bookmarks));
 }
 
 function renderBookmarks(){
-  const c = document.getElementById('bookmarksContainer');
-  c.innerHTML = '';
-  const groups = {};
-  bookmarks.forEach((item,i)=>{ 
-    if(!groups[item.category]) groups[item.category]=[];
-    groups[item.category].push({item,i});
-  });
-  Object.keys(groups).forEach(cat=>{
-    let h = `<div class="section-title">${cat}</div><div class="grid">`;
-    groups[cat].forEach(({item, i})=>{
-      const icon = item.image ? `<img src="${item.image}" alt="${item.name}">` : `<span>${item.icon||'🔗'}</span>`;
-      h += `<div class="card">
-        <div class="card-actions">
-          <button data-index="${i}" class="edit-btn">✏️</button>
-          <button data-index="${i}" class="delete-btn">🗑️</button>
-        </div>
-        <a href="${item.url}" target="_blank" style="display:block">
-          <div class="icon">${icon}</div>
-          <h3>${item.name}</h3>
-          <p>${item.desc||''}</p>
-        </a>
-      </div>`;
-    });
-    h += '</div>';
-    c.innerHTML += h;
-  });
-  if(bookmarks.length===0){
-    c.innerHTML = `<p style="text-align:center;color:var(--muted);padding:60px 20px;font-size:15px">还没有书签～<br>点击「➕ 添加书签」开始吧</p>`;
-  }
-  document.querySelectorAll('.edit-btn').forEach(b=>b.onclick=e=>{e.preventDefault();editBookmark(parseInt(b.dataset.index))});
-  document.querySelectorAll('.delete-btn').forEach(b=>b.onclick=e=>{e.preventDefault();deleteBookmark(parseInt(b.dataset.index))});
+ const c = document.getElementById('bookmarksContainer');
+ c.innerHTML = '';
+ const groups = {};
+ bookmarks.forEach((item,i)=>{ 
+ if(!groups[item.category]) groups[item.category]=[];
+ groups[item.category].push({item,i});
+ });
+ Object.keys(groups).forEach(cat=>{
+ let h = `<div class="section-title">${cat}</div><div class="grid">`;
+ groups[cat].forEach(({item, i})=>{
+ const icon = item.image ? `<img src="${item.image}" alt="${item.name}">` : `<span>${item.icon||'🔗'}</span>`;
+ h += `<div class="card">
+ <div class="card-actions">
+ <button data-index="${i}" class="edit-btn">✏️</button>
+ <button data-index="${i}" class="delete-btn">🗑️</button>
+ </div>
+ <a href="${item.url}" target="_blank" style="display:block">
+ <div class="icon">${icon}</div>
+ <h3>${item.name}</h3>
+ <p>${item.desc||''}</p>
+ </a>
+ </div>`;
+ });
+ h += '</div>';
+ c.innerHTML += h;
+ });
+ if(bookmarks.length===0){
+ c.innerHTML = `<p style="text-align:center;color:var(--muted);padding:60px 20px;font-size:15px">还没有书签～<br>点击「➕ 添加书签」开始吧</p>`;
+ }
+ document.querySelectorAll('.edit-btn').forEach(b=>b.onclick=e=>{e.preventDefault();editBookmark(parseInt(b.dataset.index))});
+ document.querySelectorAll('.delete-btn').forEach(b=>b.onclick=e=>{e.preventDefault();deleteBookmark(parseInt(b.dataset.index))});
 }
 
 function editBookmark(i){
-  const item = bookmarks[i];
-  editingIndex = i;
-  document.getElementById('addName').value = item.name;
-  document.getElementById('addUrl').value = item.url;
-  document.getElementById('addIcon').value = item.icon || '🌐';
-  document.getElementById('addDesc').value = item.desc || '';
-  document.getElementById('addCategory').value = item.category;
-  if(item.image){
-    selectedImageBase64 = item.image;
-    document.getElementById('previewImg').src = item.image;
-    document.getElementById('imagePreview').style.display = 'block';
-  }else{
-    selectedImageBase64 = '';
-    document.getElementById('imagePreview').style.display = 'none';
-  }
-  document.getElementById('confirmAdd').textContent = '💾 保存修改';
-  document.getElementById('addForm').style.display = 'block';
+ const item = bookmarks[i];
+ editingIndex = i;
+ document.getElementById('addName').value = item.name;
+ document.getElementById('addUrl').value = item.url;
+ document.getElementById('addIcon').value = item.icon || '🌐';
+ document.getElementById('addDesc').value = item.desc || '';
+ document.getElementById('addCategory').value = item.category;
+ if(item.image){
+ selectedImageBase64 = item.image;
+ document.getElementById('previewImg').src = item.image;
+ document.getElementById('imagePreview').style.display = 'block';
+ }else{
+ selectedImageBase64 = '';
+ document.getElementById('imagePreview').style.display = 'none';
+ }
+ document.getElementById('confirmAdd').textContent = '💾 保存修改';
+ document.getElementById('addForm').style.display = 'block';
 }
 
 function deleteBookmark(i){
-  if(confirm('确定删除这个书签吗？')){
-    bookmarks.splice(i,1);
-    saveBookmarks();
-    renderBookmarks();
-  }
+ if(confirm('确定删除这个书签吗？')){
+ bookmarks.splice(i,1);
+ saveBookmarks();
+ renderBookmarks();
+ }
 }
 
 function updateDateTime(){
-  setInterval(()=>{
-    const str = new Date().toLocaleString('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'long',hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    document.getElementById('datetime').textContent = str.replace(',','');
-  },1000);
+ setInterval(()=>{
+ const str = new Date().toLocaleString('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'long',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+ document.getElementById('datetime').textContent = str.replace(',','');
+ },1000);
 }
 
-// 事件绑定
 document.getElementById('googleSearch').onkeypress = e=>{if(e.key==='Enter'){const q=encodeURIComponent(e.target.value.trim());if(q)window.open('https://www.google.com/search?q='+q+'&hl=zh-CN','_blank');}};
 document.getElementById('themeToggle').onclick = ()=>{const d=document.body.getAttribute('data-theme')==='dark';document.body.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeToggle').textContent=d?'☀️ 白天模式':'🌙 夜晚模式';};
 document.getElementById('musicBtn').onclick = ()=>{if(isPlaying){audio.pause();document.getElementById('musicBtn').textContent='🎵 点击播放音乐';}else{audio.play().catch(()=>{});document.getElementById('musicBtn').textContent='⏸️ 暂停音乐';}isPlaying=!isPlaying;};
@@ -198,35 +197,35 @@ document.getElementById('githubLogin').onclick = ()=>window.open('https://github
 document.getElementById('addBtn').onclick = ()=>{editingIndex=-1;document.getElementById('confirmAdd').textContent='✅ 添加书签';document.getElementById('addForm').style.display='block';selectedImageBase64='';document.getElementById('imagePreview').style.display='none';};
 document.getElementById('uploadImageBtn').onclick = ()=>document.getElementById('imageInput').click();
 document.getElementById('imageInput').onchange = e=>{
-  const f = e.target.files[0];
-  if(!f) return;
-  const r = new FileReader();
-  r.onload = ev => {selectedImageBase64 = ev.target.result; document.getElementById('previewImg').src = selectedImageBase64; document.getElementById('imagePreview').style.display = 'block';};
-  r.readAsDataURL(f);
+ const f = e.target.files[0];
+ if(!f) return;
+ const r = new FileReader();
+ r.onload = ev => {selectedImageBase64 = ev.target.result; document.getElementById('previewImg').src = selectedImageBase64; document.getElementById('imagePreview').style.display = 'block';};
+ r.readAsDataURL(f);
 };
 document.getElementById('confirmAdd').onclick = ()=>{
-  const name = document.getElementById('addName').value.trim();
-  const url = document.getElementById('addUrl').value.trim();
-  if(!name || !url) return alert('名称和网址不能为空！');
-  if(!url.startsWith('http')) return alert('网址必须以 http:// 或 https:// 开头');
-  const newItem = {name, url, icon: document.getElementById('addIcon').value.trim() || '🔗', image: selectedImageBase64 || null, desc: document.getElementById('addDesc').value.trim(), category: document.getElementById('addCategory').value};
-  if(editingIndex >= 0) bookmarks[editingIndex] = newItem;
-  else bookmarks.push(newItem);
-  saveBookmarks();
-  renderBookmarks();
-  document.getElementById('addForm').style.display = 'none';
-  selectedImageBase64 = '';
+ const name = document.getElementById('addName').value.trim();
+ const url = document.getElementById('addUrl').value.trim();
+ if(!name || !url) return alert('名称和网址不能为空！');
+ if(!url.startsWith('http')) return alert('网址必须以 http:// 或 https:// 开头');
+ const newItem = {name, url, icon: document.getElementById('addIcon').value.trim() || '🔗', image: selectedImageBase64 || null, desc: document.getElementById('addDesc').value.trim(), category: document.getElementById('addCategory').value};
+ if(editingIndex >= 0) bookmarks[editingIndex] = newItem;
+ else bookmarks.push(newItem);
+ saveBookmarks();
+ renderBookmarks();
+ document.getElementById('addForm').style.display = 'none';
+ selectedImageBase64 = '';
 };
 document.getElementById('cancelEdit').onclick = () => document.getElementById('addForm').style.display = 'none';
 document.getElementById('clearBtn').onclick = () => {
-  if(confirm('确定要清空所有书签吗？')){ bookmarks = []; saveBookmarks(); renderBookmarks(); }
+ if(confirm('确定要清空所有书签吗？')){ bookmarks = []; saveBookmarks(); renderBookmarks(); }
 };
 
 window.onload = () => {
-  loadBookmarks();
-  updateDateTime();
-  audio.volume = 0.32;
-  audio.play().catch(() => {});
+ loadBookmarks();
+ updateDateTime();
+ audio.volume = 0.32;
+ audio.play().catch(() => {});
 };
 </script>
 </body>
