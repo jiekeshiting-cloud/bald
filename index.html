@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>二宝子的导航书签</title>
+  <title>二宝子</title>
   <style>
     :root {
-      --bg1: #0a0a2e;
-      --bg2: #1a0f4d;
-      --bg3: #2e1a6b;
-      --accent: #a5b4fc;
-      --glass: rgba(255,255,255,0.10);
-      --glass-border: rgba(165,180,252,0.28);
+      --bg1: #0f0a2e;
+      --bg2: #2a0f5e;
+      --bg3: #4a1a8c;
+      --accent: #c4b5fd;
+      --glass: rgba(255,255,255,0.09);
+      --glass-border: rgba(180,160,255,0.35);
       --text: #ffffff;
-      --muted: rgba(255,255,255,0.82);
-      --card-bg: rgba(255,255,255,0.09);
+      --muted: rgba(255,255,255,0.78);
+      --card-bg: rgba(255,255,255,0.08);
     }
 
     * { box-sizing: border-box; margin:0; padding:0; }
@@ -22,9 +22,9 @@
       font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
       color: var(--text);
       min-height: 100vh;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-      background-size: 400% 400%;
-      animation: gradientShift 25s ease infinite;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3), #6b1a9e);
+      background-size: 300% 300%;
+      animation: gradientShift 18s ease infinite;
       background-attachment: fixed;
       overflow-x: hidden;
     }
@@ -49,79 +49,68 @@
     }
     @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-100%);} }
 
-    .header { display:flex; flex-direction:column; align-items:center; gap:16px; margin-bottom:12px; }
+    .header { display:flex; flex-direction:column; align-items:center; gap:12px; margin-bottom:20px; text-align:center; }
     .hero {
-      display:flex; flex-direction:column; align-items:center; text-align:center; gap:16px;
-      padding:28px 20px; border:1px solid var(--glass-border); border-radius:28px;
+      padding:24px 20px; border:1px solid var(--glass-border); border-radius:28px;
       background:var(--glass); backdrop-filter:blur(22px); width:100%;
     }
-    .avatar { width:94px; height:94px; border-radius:50%; object-fit:cover; border:4px solid rgba(165,180,252,0.75); }
-    .title-box h1 { font-size:29px; letter-spacing:1.5px; margin-bottom:4px; }
-    .title-box p { color:var(--muted); font-size:15px; }
+    .avatar { width:88px; height:88px; border-radius:50%; object-fit:cover; border:4px solid rgba(180,160,255,0.7); }
+    .title-box h1 { font-size:32px; letter-spacing:2px; margin-bottom:6px; }
+    .title-box .datetime { font-size:15.5px; color:var(--muted); font-weight:500; }
 
-    .info-bar {
-      margin: 8px 0 22px; padding: 16px 20px; background:var(--glass); border:1px solid var(--glass-border);
-      border-radius:22px; backdrop-filter:blur(20px); font-size:14.8px; text-align:center;
+    .search-box {
+      margin:20px 0 30px; padding:16px 20px; border-radius:999px;
+      background:rgba(255,255,255,0.12); border:1px solid rgba(180,160,255,0.4); backdrop-filter:blur(18px);
     }
+    .search-input { width:100%; border:none; outline:none; background:transparent; color:var(--text); font-size:16.5px; }
 
-    .controls { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; width:100%; margin-bottom:16px; }
+    .controls { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:20px; }
     button {
-      background:rgba(255,255,255,0.22); color:var(--text); border:1px solid rgba(165,180,252,0.45);
-      padding:13px 22px; border-radius:999px; cursor:pointer; font-size:14.5px; min-width:130px;
+      background:rgba(255,255,255,0.22); color:var(--text); border:1px solid rgba(180,160,255,0.45);
+      padding:13px 24px; border-radius:999px; cursor:pointer; font-size:14.8px;
       transition: all 0.3s ease;
     }
-    button:hover { background:rgba(165,180,252,0.35); transform:scale(1.06); }
-
-    .search-box { 
-      margin:12px 0 24px; padding:16px 20px; border-radius:999px;
-      background:rgba(255,255,255,0.12); border:1px solid rgba(165,180,252,0.35); backdrop-filter:blur(18px); 
-    }
-    .search-input { width:100%; border:none; outline:none; background:transparent; color:var(--text); font-size:16px; }
+    button:hover { background:rgba(180,160,255,0.35); transform:scale(1.05); }
 
     .section-title { 
-      font-size:17.8px; margin:32px 0 14px; padding-left:12px; 
+      font-size:18px; margin:32px 0 16px; padding-left:14px; 
       border-left:5px solid var(--accent); font-weight:600;
     }
 
     .grid { 
       display:grid; 
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-      gap:16px; 
+      gap:18px; 
     }
 
     .card {
-      display:block; text-decoration:none; color:var(--text); padding:20px 16px; border-radius:20px;
-      background:var(--card-bg); border:1px solid rgba(165,180,252,0.25); 
+      display:block; text-decoration:none; color:var(--text); padding:20px 18px; border-radius:22px;
+      background:var(--card-bg); border:1px solid rgba(180,160,255,0.25); 
       backdrop-filter:blur(14px); box-shadow:0 10px 25px rgba(0,0,0,0.35);
       transition:all 0.3s ease;
     }
     .card:hover { 
       transform:translateY(-8px); 
-      box-shadow:0 22px 50px rgba(165,180,252,0.28);
-      border-color: rgba(165,180,252,0.5);
+      box-shadow:0 25px 55px rgba(180,160,255,0.3);
+      border-color: rgba(180,160,255,0.55);
     }
 
-    .card .icon { font-size:32px; margin-bottom:12px; }
-    .card h3 { font-size:16.8px; margin-bottom:7px; }
-    .card p { font-size:13.3px; color:var(--muted); line-height:1.55; }
+    .card .icon { font-size:33px; margin-bottom:12px; }
+    .card h3 { font-size:17px; margin-bottom:8px; }
+    .card p { font-size:13.5px; color:var(--muted); line-height:1.5; }
 
-    /* 已导入书签区域 */
-    #importedSection {
-      margin-top: 60px;
-      padding: 28px 24px;
-      background: rgba(165,180,252,0.09);
-      border: 2px dashed rgba(165,180,252,0.55);
-      border-radius: 28px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    .add-form {
+      margin:30px 0; padding:24px; background:var(--glass); border:1px solid var(--glass-border);
+      border-radius:24px; backdrop-filter:blur(20px);
     }
+    .add-form input, .add-form select, .add-form textarea {
+      width:100%; padding:12px 16px; margin-bottom:12px; border-radius:12px;
+      border:1px solid rgba(180,160,255,0.3); background:rgba(255,255,255,0.08);
+      color:var(--text); font-size:15px;
+    }
+    .add-form button { width:100%; padding:14px; font-size:16px; }
 
-    .imported-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-      color: var(--accent);
-    }
+    .footer { margin-top:60px; text-align:center; color:rgba(255,255,255,0.65); font-size:13.5px; }
   </style>
 </head>
 <body data-theme="dark">
@@ -136,143 +125,155 @@
       <div class="hero">
         <img class="avatar" src="avatar.jpg" alt="二宝子头像">
         <div class="title-box">
-          <h1>二宝子的导航书签</h1>
-          <p>属于二宝子的专属小窝～</p>
+          <h1>二宝子</h1>
+          <div class="datetime" id="datetime"></div>
         </div>
       </div>
     </div>
 
-    <div class="info-bar">
-      <span id="dateTime"></span><br>
-      <strong id="cityName"></strong> <span id="temp"></span> | 湿度 <span id="humidity"></span>%
+    <!-- 谷歌搜索框 -->
+    <div class="search-box">
+      <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
     </div>
 
     <div class="controls">
+      <button id="addBtn">➕ 添加书签</button>
       <button id="themeBtn">🌙 浅色模式</button>
-      <button id="musicBtn">🎵 播放背景音乐 (1/4)</button>
-      <button id="exportBtn">📤 导出书签</button>
-      <button id="importBtn">📥 导入书签</button>
-      <input type="file" id="importFile" accept=".json" style="display:none;">
     </div>
 
-    <div class="search-box">
-      <input id="searchInput" class="search-input" type="text" placeholder="搜索书签...（按 / 聚焦）">
+    <!-- 添加书签表单（默认隐藏） -->
+    <div id="addForm" class="add-form" style="display: none;">
+      <input id="addName" type="text" placeholder="书签名称（如：我的网站）" required>
+      <input id="addUrl" type="text" placeholder="网址（如：https://jierry-alt.github.io/）" required>
+      <input id="addIcon" type="text" placeholder="图标（Emoji，如：🌟）" value="🌐">
+      <input id="addDesc" type="text" placeholder="描述（可选）">
+      <select id="addCategory">
+        <option value="常用工具">常用工具</option>
+        <option value="学习资源">学习资源</option>
+        <option value="娱乐休闲">娱乐休闲</option>
+        <option value="个人网站">个人网站</option>
+        <option value="其他">其他</option>
+      </select>
+      <button id="confirmAdd">✅ 添加到书签</button>
     </div>
 
-    <!-- 原始书签区域 -->
-    <div id="originalSections"></div>
-
-    <!-- 已导入书签区域（重点修复） -->
-    <div id="importedSection" style="display: none;">
-      <div class="imported-header">
-        <span style="font-size:26px;">📥</span>
-        <div>
-          <div class="section-title" style="margin:0; border:none; padding:0; font-size:19px;">已导入的书签</div>
-          <p style="font-size:14.5px; color:var(--muted); margin-top:4px;">点击卡片即可跳转</p>
-        </div>
-      </div>
-      <div id="importedGrid" class="grid"></div>
-    </div>
+    <!-- 书签显示区域 -->
+    <div id="bookmarksContainer"></div>
 
     <div class="footer">
-      © 2026 二宝子的导航书签 · 按 T 切换主题 · 按 / 搜索
+      © 2026 二宝子 · 按 T 切换主题 · 按 / 聚焦搜索
     </div>
   </div>
 
   <audio id="bgMusic" loop preload="auto"></audio>
 
   <script>
-    // ==================== 原始书签数据（你可以在这里添加自己的书签） ====================
-    let originalCategories = [
-      {
-        "title": "常用工具",
-        "cards": [
-          { "name": "百度", "url": "https://baidu.com", "icon": "🔍", "desc": "百度一下" }
-        ]
+    let bookmarks = [];
+
+    // 从本地加载书签
+    function loadBookmarks() {
+      const saved = localStorage.getItem('erbaoBookmarks');
+      if (saved) {
+        bookmarks = JSON.parse(saved);
       }
-    ];
+      renderBookmarks();
+    }
 
-    let importedCategories = [];
+    // 保存到本地
+    function saveBookmarks() {
+      localStorage.setItem('erbaoBookmarks', JSON.stringify(bookmarks));
+    }
 
-    // 渲染函数（已优化）
-    function renderSections(containerId, data) {
-      const container = document.getElementById(containerId);
-      if (!container) return;
-      
+    function renderBookmarks() {
+      const container = document.getElementById('bookmarksContainer');
       container.innerHTML = '';
-      
-      if (data.length === 0) {
-        container.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px;">暂无书签</p>';
-        return;
-      }
 
-      data.forEach(cat => {
-        let html = `<div class="section-title">${cat.title}</div><div class="grid">`;
-        
-        cat.cards.forEach(card => {
+      // 按分类分组显示
+      const groups = {};
+      bookmarks.forEach(item => {
+        if (!groups[item.category]) groups[item.category] = [];
+        groups[item.category].push(item);
+      });
+
+      Object.keys(groups).forEach(cat => {
+        let html = `<div class="section-title">${cat}</div><div class="grid">`;
+        groups[cat].forEach(item => {
           html += `
-            <a class="card" href="${card.url}" target="_blank" rel="noopener">
-              <div class="icon">${card.icon || '🔗'}</div>
-              <h3>${card.name}</h3>
-              <p>${card.desc || '暂无描述'}</p>
+            <a class="card" href="${item.url}" target="_blank" rel="noopener">
+              <div class="icon">${item.icon}</div>
+              <h3>${item.name}</h3>
+              <p>${item.desc || ''}</p>
             </a>`;
         });
-        
         html += '</div>';
         container.innerHTML += html;
       });
+
+      if (bookmarks.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:var(--muted); padding:40px;">还没有书签，点击上方「➕ 添加书签」开始吧～</p>`;
+      }
     }
 
-    // 导入功能（已优化）
-    document.getElementById('importBtn').addEventListener('click', () => {
-      document.getElementById('importFile').click();
+    // 时间显示
+    function updateDateTime() {
+      const dt = document.getElementById('datetime');
+      setInterval(() => {
+        const now = new Date();
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'long', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        dt.textContent = now.toLocaleString('zh-CN', options).replace(',', '');
+      }, 1000);
+    }
+
+    // 谷歌搜索
+    document.getElementById('googleSearch').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const query = encodeURIComponent(e.target.value.trim());
+        if (query) {
+          window.open(`https://www.google.com/search?q=${query}&hl=zh-CN`, '_blank');
+        }
+      }
     });
 
-    document.getElementById('importFile').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
+    // 添加书签按钮
+    document.getElementById('addBtn').addEventListener('click', () => {
+      const form = document.getElementById('addForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
 
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        try {
-          const importedData = JSON.parse(ev.target.result.trim());
+    // 确认添加
+    document.getElementById('confirmAdd').addEventListener('click', () => {
+      const name = document.getElementById('addName').value.trim();
+      const url = document.getElementById('addUrl').value.trim();
+      const icon = document.getElementById('addIcon').value.trim() || '🔗';
+      const desc = document.getElementById('addDesc').value.trim();
+      const category = document.getElementById('addCategory').value;
 
-          let newCategories = [];
-          if (Array.isArray(importedData)) {
-            newCategories = importedData;
-          } else if (importedData && Array.isArray(importedData.categories)) {
-            newCategories = importedData.categories;
-          } else {
-            alert('❌ 文件格式错误！\n\n请确保内容是一个书签分类数组。');
-            return;
-          }
+      if (!name || !url) {
+        alert('书签名称和网址不能为空！');
+        return;
+      }
 
-          if (newCategories.length === 0) {
-            alert('❌ 文件中没有书签内容');
-            return;
-          }
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        alert('网址必须以 http:// 或 https:// 开头');
+        return;
+      }
 
-          importedCategories = newCategories;
-          document.getElementById('importedSection').style.display = 'block';
-          
-          renderSections('importedGrid', importedCategories);
+      bookmarks.push({ name, url, icon, desc, category });
+      saveBookmarks();
+      renderBookmarks();
 
-          // 自动滚动到导入区域
-          document.getElementById('importedSection').scrollIntoView({ behavior: 'smooth' });
+      // 清空表单并隐藏
+      document.getElementById('addName').value = '';
+      document.getElementById('addUrl').value = '';
+      document.getElementById('addDesc').value = '';
+      document.getElementById('addForm').style.display = 'none';
 
-          alert(`✅ 导入成功！\n共导入 ${newCategories.length} 个分类`);
-
-        } catch (err) {
-          console.error(err);
-          alert('❌ 导入失败：JSON 文件格式错误或损坏\n\n请检查文件是否正确保存为 UTF-8 编码');
-        }
-      };
-      reader.readAsText(file);
-      e.target.value = ''; // 清空，方便重复导入
+      alert('✅ 书签添加成功！');
     });
 
     // 初始化
-    renderSections('originalSections', originalCategories);
+    loadBookmarks();
+    updateDateTime();
   </script>
 </body>
 </html>
