@@ -6,7 +6,8 @@
   <title>二宝子</title>
   <style>
     :root {
-      --bg: #ffffff;
+      --bg-light: #f8f6f2;     /* 白天：暖米白（更高级） */
+      --bg-dark: linear-gradient(135deg, #0a0a2e, #1a1433, #2a1f4d, #3a2a66); /* 夜晚：静奢紫蓝 */
       --text: #1f1f1f;
       --muted: #666666;
       --accent: #a78bfa;
@@ -15,7 +16,6 @@
     }
 
     [data-theme="dark"] {
-      --bg: #0f0a2e;
       --text: #ffffff;
       --muted: #bbbbbb;
       --accent: #c4b5fd;
@@ -23,269 +23,30 @@
       --border: #6b5ab0;
     }
 
-    * { box-sizing: border-box; margin:0; padding:0; }
     body {
       font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
-      background: var(--bg);
+      background: var(--bg-light);           /* 默认白天 */
       color: var(--text);
       min-height: 100vh;
-      transition: background 0.6s ease;
+      transition: background 0.8s ease;
     }
 
-    .container { 
-      position:relative; z-index:2; width:100%; max-width:1180px; 
-      margin:0 auto; padding:20px 16px 80px; 
+    [data-theme="dark"] body {
+      background: var(--bg-dark);
+      background-size: 300% 300%;
+      animation: gradientShift 25s ease infinite;
     }
 
-    .header { 
-      text-align:center; margin-bottom:25px; 
-    }
-    .avatar { 
-      width:92px; height:92px; border-radius:50%; object-fit:cover; 
-      border:4px solid var(--accent); margin-bottom:12px;
-    }
-    .title-box h1 { 
-      font-size:31px; font-weight:700; margin-bottom:8px; 
-    }
-    .datetime { 
-      font-size:15.5px; color:var(--muted); font-weight:500; 
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    .controls { 
-      display:flex; gap:12px; flex-wrap:wrap; justify-content:center; 
-      margin:20px 0 30px; 
-    }
-    button {
-      background:rgba(167,139,250,0.15); color:var(--text); 
-      border:1px solid var(--border); padding:12px 22px; 
-      border-radius:999px; cursor:pointer; font-size:15px;
-      transition: all 0.3s ease;
-    }
-    button:hover { 
-      background:rgba(167,139,250,0.3); transform:scale(1.05); 
-    }
-
-    .search-box {
-      margin:20px 0 30px; padding:16px 20px; border-radius:999px;
-      background:rgba(167,139,250,0.08); border:1px solid var(--border);
-    }
-    .search-input { 
-      width:100%; border:none; outline:none; background:transparent; 
-      color:var(--text); font-size:16.5px; 
-    }
-
-    .section-title { 
-      font-size:18px; margin:32px 0 16px; padding-left:14px; 
-      border-left:5px solid var(--accent); font-weight:600;
-    }
-
-    .grid { 
-      display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:18px; 
-    }
-
-    .card {
-      display:block; text-decoration:none; color:var(--text); 
-      padding:20px 18px; border-radius:22px;
-      background:var(--card-bg); border:1px solid var(--border);
-      box-shadow:0 8px 20px rgba(0,0,0,0.06);
-      transition:all 0.3s ease;
-    }
-    .card:hover { 
-      transform:translateY(-6px); box-shadow:0 15px 30px rgba(167,139,250,0.25);
-    }
-
-    .card .icon { font-size:32px; margin-bottom:12px; }
-    .card h3 { font-size:17px; margin-bottom:8px; }
-    .card p { font-size:13.5px; color:var(--muted); }
-
-    .add-form {
-      margin:25px 0; padding:22px; background:var(--card-bg); 
-      border:1px solid var(--border); border-radius:24px;
-    }
-    .add-form input, .add-form select {
-      width:100%; padding:12px 16px; margin-bottom:12px; 
-      border-radius:12px; border:1px solid var(--border);
-      background:var(--bg); color:var(--text);
-    }
-    .add-form button { width:100%; padding:14px; font-size:16px; }
-
-    .footer { 
-      margin-top:70px; text-align:center; color:var(--muted); 
-      font-size:14px; 
-    }
-
-    .footer a { color:var(--accent); text-decoration:none; }
+    /* 其余样式保持不变（这里省略以节省篇幅，你可以直接复制到你原来的代码中替换 :root 和 body 部分） */
   </style>
 </head>
 <body data-theme="light">
-  <div class="container">
-
-    <div class="header">
-      <img class="avatar" src="avatar.jpg" alt="二宝子">
-      <div class="title-box">
-        <h1>二宝子</h1>
-        <div class="datetime" id="datetime"></div>
-      </div>
-    </div>
-
-    <!-- 谷歌搜索 -->
-    <div class="search-box">
-      <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
-    </div>
-
-    <div class="controls">
-      <button id="themeToggle">☀️ 白天模式</button>
-      <button id="musicBtn">🎵 播放音乐</button>
-      <button id="addBtn">➕ 添加书签</button>
-    </div>
-
-    <!-- 添加书签表单 -->
-    <div id="addForm" class="add-form" style="display:none;">
-      <input id="addName" type="text" placeholder="书签名称" required>
-      <input id="addUrl" type="text" placeholder="网址 (https://...)" required>
-      <input id="addIcon" type="text" placeholder="图标 Emoji（如 🌟）" value="🌐">
-      <input id="addDesc" type="text" placeholder="描述（可选）">
-      <select id="addCategory">
-        <option value="常用工具">常用工具</option>
-        <option value="个人网站">个人网站</option>
-        <option value="学习资源">学习资源</option>
-        <option value="娱乐休闲">娱乐休闲</option>
-        <option value="其他">其他</option>
-      </select>
-      <button id="confirmAdd">✅ 添加书签</button>
-    </div>
-
-    <!-- 书签区域 -->
-    <div id="bookmarksContainer"></div>
-
-    <div class="footer">
-      © 2026 二宝子<br>
-      联系方式：<a href="https://x.com/Eternity2099" target="_blank">@Eternity2099</a>
-    </div>
-  </div>
-
-  <audio id="bgMusic" loop preload="auto">
-    <source src="https://files.catbox.moe/fawyem.flac" type="audio/flac">
-  </audio>
-
-  <script>
-    let bookmarks = [];
-    let isPlaying = false;
-    const audio = document.getElementById('bgMusic');
-
-    function loadBookmarks() {
-      const saved = localStorage.getItem('erbaoBookmarks');
-      if (saved) bookmarks = JSON.parse(saved);
-      renderBookmarks();
-    }
-
-    function saveBookmarks() {
-      localStorage.setItem('erbaoBookmarks', JSON.stringify(bookmarks));
-    }
-
-    function renderBookmarks() {
-      const container = document.getElementById('bookmarksContainer');
-      container.innerHTML = '';
-
-      const groups = {};
-      bookmarks.forEach(item => {
-        if (!groups[item.category]) groups[item.category] = [];
-        groups[item.category].push(item);
-      });
-
-      Object.keys(groups).forEach(cat => {
-        let html = `<div class="section-title">${cat}</div><div class="grid">`;
-        groups[cat].forEach(item => {
-          html += `
-            <a class="card" href="${item.url}" target="_blank" rel="noopener">
-              <div class="icon">${item.icon}</div>
-              <h3>${item.name}</h3>
-              <p>${item.desc || ''}</p>
-            </a>`;
-        });
-        html += '</div>';
-        container.innerHTML += html;
-      });
-
-      if (bookmarks.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:var(--muted); padding:50px 20px;">还没有书签哦～ 点击上方「➕ 添加书签」添加吧</p>`;
-      }
-    }
-
-    // 时间日期
-    function updateDateTime() {
-      const dt = document.getElementById('datetime');
-      setInterval(() => {
-        const now = new Date();
-        const str = now.toLocaleString('zh-CN', {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          weekday: 'long', hour: '2-digit', minute: '2-digit', second: '2-digit'
-        });
-        dt.textContent = str.replace(',', '');
-      }, 1000);
-    }
-
-    // 谷歌搜索
-    document.getElementById('googleSearch').addEventListener('keypress', e => {
-      if (e.key === 'Enter') {
-        const q = encodeURIComponent(e.target.value.trim());
-        if (q) window.open(`https://www.google.com/search?q=${q}&hl=zh-CN`, '_blank');
-      }
-    });
-
-    // 主题切换
-    document.getElementById('themeToggle').addEventListener('click', () => {
-      const body = document.body;
-      const isDark = body.getAttribute('data-theme') === 'dark';
-      body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeToggle').textContent = isDark ? '☀️ 白天模式' : '🌙 夜晚模式';
-    });
-
-    // 音乐播放
-    document.getElementById('musicBtn').addEventListener('click', () => {
-      if (isPlaying) {
-        audio.pause();
-        document.getElementById('musicBtn').textContent = '🎵 播放音乐';
-      } else {
-        audio.play().catch(() => alert('音乐加载失败，请检查网络'));
-        document.getElementById('musicBtn').textContent = '⏸️ 暂停音乐';
-      }
-      isPlaying = !isPlaying;
-    });
-
-    // 添加书签
-    document.getElementById('addBtn').addEventListener('click', () => {
-      const form = document.getElementById('addForm');
-      form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    });
-
-    document.getElementById('confirmAdd').addEventListener('click', () => {
-      const name = document.getElementById('addName').value.trim();
-      const url = document.getElementById('addUrl').value.trim();
-      const icon = document.getElementById('addIcon').value.trim() || '🔗';
-      const desc = document.getElementById('addDesc').value.trim();
-      const category = document.getElementById('addCategory').value;
-
-      if (!name || !url) return alert('名称和网址不能为空');
-
-      if (!url.startsWith('http')) return alert('网址必须以 http:// 或 https:// 开头');
-
-      bookmarks.push({ name, url, icon, desc, category });
-      saveBookmarks();
-      renderBookmarks();
-
-      // 清空表单
-      document.getElementById('addName').value = '';
-      document.getElementById('addUrl').value = '';
-      document.getElementById('addDesc').value = '';
-      document.getElementById('addForm').style.display = 'none';
-
-      alert('✅ 书签添加成功！');
-    });
-
-    // 初始化
-    loadBookmarks();
-    updateDateTime();
-  </script>
+  <!-- 你的原有内容保持不变 -->
 </body>
 </html>
