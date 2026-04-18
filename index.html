@@ -6,10 +6,10 @@
   <title>二宝子的导航书签</title>
   <style>
     :root {
-      --bg1: #0a0a2e;     /* 深蓝紫 */
-      --bg2: #1a0f4d;     /* 中紫 */
-      --bg3: #2e1a6b;     /* 亮紫蓝 */
-      --accent: #a5b4fc;  /* 淡紫蓝 */
+      --bg1: #0a0a2e;
+      --bg2: #1a0f4d;
+      --bg3: #2e1a6b;
+      --accent: #a5b4fc;
       --glass: rgba(255,255,255,0.10);
       --glass-border: rgba(165,180,252,0.28);
       --text: #ffffff;
@@ -83,7 +83,11 @@
       border-left:5px solid var(--accent); font-weight:600;
     }
 
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; }
+    .grid { 
+      display:grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      gap:16px; 
+    }
 
     .card {
       display:block; text-decoration:none; color:var(--text); padding:20px 16px; border-radius:20px;
@@ -101,7 +105,7 @@
     .card h3 { font-size:16.8px; margin-bottom:7px; }
     .card p { font-size:13.3px; color:var(--muted); line-height:1.55; }
 
-    /* 已导入书签区域 - 更醒目优化 */
+    /* 已导入书签区域 */
     #importedSection {
       margin-top: 60px;
       padding: 28px 24px;
@@ -117,10 +121,6 @@
       gap: 12px;
       margin-bottom: 18px;
       color: var(--accent);
-    }
-
-    .footer { 
-      margin-top:70px; text-align:center; color:rgba(255,255,255,0.68); font-size:13.2px; 
     }
   </style>
 </head>
@@ -159,16 +159,16 @@
       <input id="searchInput" class="search-input" type="text" placeholder="搜索书签...（按 / 聚焦）">
     </div>
 
-    <!-- 原始书签 -->
+    <!-- 原始书签区域 -->
     <div id="originalSections"></div>
 
-    <!-- 已导入书签区域（优化后） -->
+    <!-- 已导入书签区域（重点修复） -->
     <div id="importedSection" style="display: none;">
       <div class="imported-header">
-        <span style="font-size:24px;">📥</span>
+        <span style="font-size:26px;">📥</span>
         <div>
-          <div class="section-title" style="margin:0; border:none; padding:0;">已导入的书签</div>
-          <p style="font-size:14px; color:var(--muted); margin-top:4px;">以下是您本次导入的内容</p>
+          <div class="section-title" style="margin:0; border:none; padding:0; font-size:19px;">已导入的书签</div>
+          <p style="font-size:14.5px; color:var(--muted); margin-top:4px;">点击卡片即可跳转</p>
         </div>
       </div>
       <div id="importedGrid" class="grid"></div>
@@ -182,18 +182,30 @@
   <audio id="bgMusic" loop preload="auto"></audio>
 
   <script>
-    // ==================== 书签数据结构示例（请替换为你自己的原始数据） ====================
+    // ==================== 原始书签数据（你可以在这里添加自己的书签） ====================
     let originalCategories = [
-      // 这里放你原来的书签数据，例如：
-      // { title: "常用工具", cards: [ {name:"百度", url:"https://baidu.com", icon:"🔍", desc:"..."}, ... ] }
+      {
+        "title": "常用工具",
+        "cards": [
+          { "name": "百度", "url": "https://baidu.com", "icon": "🔍", "desc": "百度一下" }
+        ]
+      }
     ];
 
     let importedCategories = [];
 
+    // 渲染函数（已优化）
     function renderSections(containerId, data) {
       const container = document.getElementById(containerId);
+      if (!container) return;
+      
       container.innerHTML = '';
       
+      if (data.length === 0) {
+        container.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px;">暂无书签</p>';
+        return;
+      }
+
       data.forEach(cat => {
         let html = `<div class="section-title">${cat.title}</div><div class="grid">`;
         
@@ -211,7 +223,7 @@
       });
     }
 
-    // 导入书签功能（已修复格式兼容）
+    // 导入功能（已优化）
     document.getElementById('importBtn').addEventListener('click', () => {
       document.getElementById('importFile').click();
     });
@@ -223,23 +235,20 @@
       const reader = new FileReader();
       reader.onload = (ev) => {
         try {
-          const importedData = JSON.parse(ev.target.result);
+          const importedData = JSON.parse(ev.target.result.trim());
 
-          // 支持两种常见格式：直接数组 或 {categories: [...]}
           let newCategories = [];
           if (Array.isArray(importedData)) {
             newCategories = importedData;
-          } else if (importedData.categories && Array.isArray(importedData.categories)) {
+          } else if (importedData && Array.isArray(importedData.categories)) {
             newCategories = importedData.categories;
-          } else if (importedData.data && Array.isArray(importedData.data)) {
-            newCategories = importedData.data;
           } else {
-            alert('❌ 文件格式不正确！\n\n请确保是包含分类数组的 JSON 文件');
+            alert('❌ 文件格式错误！\n\n请确保内容是一个书签分类数组。');
             return;
           }
 
           if (newCategories.length === 0) {
-            alert('❌ 导入的内容为空');
+            alert('❌ 文件中没有书签内容');
             return;
           }
 
@@ -251,24 +260,19 @@
           // 自动滚动到导入区域
           document.getElementById('importedSection').scrollIntoView({ behavior: 'smooth' });
 
-          alert(`✅ 导入成功！\n共导入 ${importedCategories.length} 个分类，已在下方显示`);
+          alert(`✅ 导入成功！\n共导入 ${newCategories.length} 个分类`);
 
         } catch (err) {
           console.error(err);
-          alert('❌ 导入失败：JSON 文件格式错误或损坏\n\n请检查文件是否为正确的书签 JSON 格式');
+          alert('❌ 导入失败：JSON 文件格式错误或损坏\n\n请检查文件是否正确保存为 UTF-8 编码');
         }
       };
       reader.readAsText(file);
-      
-      // 清空 input，方便重复导入同一个文件
-      e.target.value = '';
+      e.target.value = ''; // 清空，方便重复导入
     });
 
-    // 初始化渲染原始书签
+    // 初始化
     renderSections('originalSections', originalCategories);
-
-    // ==================== 其他功能（粒子、音乐、时间、天气等）请保留你原来的代码 ====================
-    // ...（把你之前版本的粒子、音乐、日期时间、天气、搜索、键盘快捷键等脚本粘贴到这里）
   </script>
 </body>
 </html>
