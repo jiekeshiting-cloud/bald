@@ -6,7 +6,7 @@
   <title>二宝子</title>
   <style>
     :root {
-      --bg-light: #f8f5f0;     /* 高级暖米白 */
+      --bg-light: #f8f5f0;     
       --accent: #9f7aea;
       --text: #222222;
       --muted: #666666;
@@ -43,25 +43,13 @@
       100% { background-position: 0% 50%; }
     }
 
-    .container { 
-      max-width: 1180px; margin: 0 auto; padding: 20px 16px 100px; 
-    }
+    .container { max-width: 1180px; margin: 0 auto; padding: 20px 16px 100px; }
 
-    .header { 
-      text-align: center; margin: 30px 0 25px; 
-    }
-    .avatar { 
-      width: 96px; height: 96px; border-radius: 50%; object-fit: cover; 
-      border: 4px solid var(--accent); margin-bottom: 12px;
-    }
-    .title-box h1 { 
-      font-size: 32px; font-weight: 700; margin-bottom: 8px; 
-    }
-    .datetime { 
-      font-size: 15.8px; color: var(--muted); 
-    }
+    .header { text-align: center; margin: 30px 0 25px; }
+    .avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); margin-bottom: 12px; }
+    .title-box h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+    .datetime { font-size: 15.8px; color: var(--muted); }
 
-    /* 按钮区域 - 双列排列 */
     .controls {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -80,16 +68,7 @@
       transition: all 0.3s ease;
       width: 100%;
     }
-    button:hover { 
-      background: rgba(159, 122, 234, 0.25); 
-      transform: scale(1.03); 
-    }
-
-    /* 添加书签按钮特殊样式（占满一行） */
-    #addBtn {
-      grid-column: 1 / -1;   /* 让添加书签独占一行 */
-      background: rgba(159, 122, 234, 0.18);
-    }
+    button:hover { background: rgba(159, 122, 234, 0.25); transform: scale(1.03); }
 
     .search-box {
       margin: 20px 0 35px;
@@ -99,51 +78,43 @@
       border: 1px solid var(--border);
       backdrop-filter: blur(10px);
     }
-    .search-input { 
-      width: 100%; border: none; outline: none; background: transparent; 
-      color: var(--text); font-size: 16.5px; 
-    }
+    .search-input { width: 100%; border: none; outline: none; background: transparent; color: var(--text); font-size: 16.5px; }
 
-    .section-title { 
-      font-size: 18px; margin: 35px 0 16px; padding-left: 14px; 
-      border-left: 5px solid var(--accent); font-weight: 600;
-    }
+    .section-title { font-size: 18px; margin: 35px 0 16px; padding-left: 14px; border-left: 5px solid var(--accent); font-weight: 600; }
 
-    .grid { 
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; 
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
 
     .card {
       display: block; text-decoration: none; color: var(--text);
-      padding: 22px 18px; border-radius: 22px;
+      padding: 20px 18px; border-radius: 22px;
       background: var(--card-bg);
       border: 1px solid var(--border);
       box-shadow: 0 8px 25px rgba(0,0,0,0.05);
       transition: all 0.3s ease;
     }
-    .card:hover { 
-      transform: translateY(-6px); 
-      box-shadow: 0 18px 35px rgba(159,122,234,0.18);
-    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 18px 35px rgba(159,122,234,0.18); }
 
-    .card .icon { font-size: 34px; margin-bottom: 12px; }
-    .card h3 { font-size: 17px; margin-bottom: 8px; }
-    .card p { font-size: 13.6px; color: var(--muted); line-height: 1.5; }
+    .card .icon { 
+      font-size: 34px; margin-bottom: 12px; width: 48px; height: 48px; 
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 12px; overflow: hidden;
+    }
+    .card .icon img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
 
     .add-form {
       margin: 30px 0; padding: 24px; background: var(--card-bg);
       border: 1px solid var(--border); border-radius: 24px;
     }
     .add-form input, .add-form select {
-      width: 100%; padding: 13px 16px; margin-bottom: 14px;
+      width: 100%; padding: 13px 16px; margin-bottom: 12px;
       border-radius: 12px; border: 1px solid var(--border);
       background: var(--bg-light); color: var(--text);
     }
-    .add-form button { width: 100%; padding: 15px; font-size: 16px; }
+    .add-form button { width: 100%; padding: 14px; margin-bottom: 8px; font-size: 15px; }
 
-    .footer { 
-      margin-top: 80px; text-align: center; color: var(--muted); font-size: 14px; 
-    }
+    .footer { margin-top: 80px; text-align: center; color: var(--muted); font-size: 14px; }
     .footer a { color: var(--accent); text-decoration: none; }
   </style>
 </head>
@@ -162,20 +133,27 @@
       <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
     </div>
 
-    <!-- 双列按钮区域 -->
     <div class="controls">
       <button id="themeToggle">☀️ 白天模式</button>
       <button id="musicBtn">🎵 音乐</button>
       <button id="cfLogin">🔐 Cloudflare 登录</button>
       <button id="gmailLogin">✉️ Google 邮箱登录</button>
       <button id="addBtn">➕ 添加书签</button>
+      <button id="clearBtn">🗑️ 清空书签</button>
     </div>
 
-    <!-- 添加书签表单 -->
+    <!-- 添加书签表单（新增图片上传） -->
     <div id="addForm" class="add-form" style="display: none;">
       <input id="addName" type="text" placeholder="书签名称" required>
       <input id="addUrl" type="text" placeholder="网址 (https://...)" required>
-      <input id="addIcon" type="text" placeholder="图标 Emoji（如 🌟）" value="🌐">
+      <input id="addIcon" type="text" placeholder="Emoji 图标（可选）" value="🌐">
+      
+      <button id="uploadImageBtn" style="background:#e0d4ff; color:#222;">📷 选择本地图片作为图标</button>
+      <input type="file" id="imageInput" accept="image/*" style="display:none;">
+      <div id="imagePreview" style="margin:10px 0; text-align:center; display:none;">
+        <img id="previewImg" style="max-width:80px; max-height:80px; border-radius:12px; border:2px solid #9f7aea;">
+      </div>
+
       <input id="addDesc" type="text" placeholder="描述（可选）">
       <select id="addCategory">
         <option value="常用工具">常用工具</option>
@@ -202,6 +180,7 @@
   <script>
     let bookmarks = [];
     let isPlaying = false;
+    let selectedImageBase64 = '';   // 保存选择的图片 Base64
     const audio = document.getElementById('bgMusic');
 
     function tryAutoPlay() {
@@ -237,9 +216,13 @@
       Object.keys(groups).forEach(cat => {
         let html = `<div class="section-title">${cat}</div><div class="grid">`;
         groups[cat].forEach(item => {
+          const iconHtml = item.image ? 
+            `<img src="${item.image}" alt="${item.name}">` : 
+            `<span>${item.icon || '🔗'}</span>`;
+
           html += `
             <a class="card" href="${item.url}" target="_blank" rel="noopener">
-              <div class="icon">${item.icon}</div>
+              <div class="icon">${iconHtml}</div>
               <h3>${item.name}</h3>
               <p>${item.desc || ''}</p>
             </a>`;
@@ -250,7 +233,7 @@
 
       if (bookmarks.length === 0) {
         container.innerHTML = `<p style="text-align:center; color:var(--muted); padding:60px 20px; font-size:15px;">
-          还没有书签～<br>点击上方「➕ 添加书签」添加吧
+          还没有书签～<br>点击「➕ 添加书签」开始添加吧
         </p>`;
       }
     }
@@ -282,7 +265,7 @@
       document.getElementById('themeToggle').textContent = isDark ? '☀️ 白天模式' : '🌙 夜晚模式';
     });
 
-    // 音乐按钮
+    // 音乐
     document.getElementById('musicBtn').addEventListener('click', () => {
       if (isPlaying) {
         audio.pause();
@@ -294,42 +277,80 @@
       isPlaying = !isPlaying;
     });
 
-    // Cloudflare 登录
-    document.getElementById('cfLogin').addEventListener('click', () => {
-      window.open('https://dash.cloudflare.com/login', '_blank');
-    });
+    // Cloudflare & Gmail 登录
+    document.getElementById('cfLogin').addEventListener('click', () => window.open('https://dash.cloudflare.com/login', '_blank'));
+    document.getElementById('gmailLogin').addEventListener('click', () => window.open('https://accounts.google.com/signin', '_blank'));
 
-    // Google 邮箱登录
-    document.getElementById('gmailLogin').addEventListener('click', () => {
-      window.open('https://accounts.google.com/signin', '_blank');
-    });
-
-    // 添加书签
+    // 添加书签按钮
     document.getElementById('addBtn').addEventListener('click', () => {
-      const form = document.getElementById('addForm');
-      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      document.getElementById('addForm').style.display = 
+        document.getElementById('addForm').style.display === 'none' ? 'block' : 'none';
+      selectedImageBase64 = ''; // 重置图片
+      document.getElementById('imagePreview').style.display = 'none';
     });
 
+    // 选择本地图片
+    document.getElementById('uploadImageBtn').addEventListener('click', () => {
+      document.getElementById('imageInput').click();
+    });
+
+    document.getElementById('imageInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        selectedImageBase64 = ev.target.result;
+        const preview = document.getElementById('previewImg');
+        preview.src = selectedImageBase64;
+        document.getElementById('imagePreview').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // 确认添加书签（支持图片）
     document.getElementById('confirmAdd').addEventListener('click', () => {
       const name = document.getElementById('addName').value.trim();
       const url = document.getElementById('addUrl').value.trim();
-      const icon = document.getElementById('addIcon').value.trim() || '🔗';
+      const emojiIcon = document.getElementById('addIcon').value.trim() || '🔗';
       const desc = document.getElementById('addDesc').value.trim();
       const category = document.getElementById('addCategory').value;
 
       if (!name || !url) return alert('名称和网址不能为空！');
       if (!url.startsWith('http')) return alert('网址必须以 http:// 或 https:// 开头');
 
-      bookmarks.push({ name, url, icon, desc, category });
+      bookmarks.push({
+        name,
+        url,
+        icon: emojiIcon,
+        image: selectedImageBase64 || null,   // 保存图片 Base64
+        desc,
+        category
+      });
+
       saveBookmarks();
       renderBookmarks();
 
+      // 清空表单
       document.getElementById('addName').value = '';
       document.getElementById('addUrl').value = '';
+      document.getElementById('addIcon').value = '🌐';
       document.getElementById('addDesc').value = '';
+      document.getElementById('imagePreview').style.display = 'none';
       document.getElementById('addForm').style.display = 'none';
+      selectedImageBase64 = '';
 
-      alert('✅ 书签添加成功！');
+      alert('✅ 书签添加成功！（支持本地图片图标）');
+    });
+
+    // 清空书签
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      if (confirm('确定要清空所有书签吗？此操作不可恢复！')) {
+        bookmarks = [];
+        localStorage.removeItem('erbaoBookmarks');
+        renderBookmarks();
+        alert('已清空所有书签');
+      }
     });
 
     // 初始化
