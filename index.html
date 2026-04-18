@@ -61,23 +61,34 @@
       font-size: 15.8px; color: var(--muted); 
     }
 
-    .controls { 
-      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; 
-      margin: 25px 0 35px; 
+    /* 按钮区域 - 双列排列 */
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 25px 0 35px;
     }
+
     button {
       background: rgba(159, 122, 234, 0.12);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 13px 24px;
+      padding: 14px 20px;
       border-radius: 999px;
       cursor: pointer;
       font-size: 15px;
       transition: all 0.3s ease;
+      width: 100%;
     }
     button:hover { 
       background: rgba(159, 122, 234, 0.25); 
-      transform: scale(1.04); 
+      transform: scale(1.03); 
+    }
+
+    /* 添加书签按钮特殊样式（占满一行） */
+    #addBtn {
+      grid-column: 1 / -1;   /* 让添加书签独占一行 */
+      background: rgba(159, 122, 234, 0.18);
     }
 
     .search-box {
@@ -151,9 +162,12 @@
       <input id="googleSearch" class="search-input" type="text" placeholder="用谷歌搜索...（回车搜索）">
     </div>
 
+    <!-- 双列按钮区域 -->
     <div class="controls">
       <button id="themeToggle">☀️ 白天模式</button>
       <button id="musicBtn">🎵 音乐</button>
+      <button id="cfLogin">🔐 Cloudflare 登录</button>
+      <button id="gmailLogin">✉️ Google 邮箱登录</button>
       <button id="addBtn">➕ 添加书签</button>
     </div>
 
@@ -278,6 +292,16 @@
         document.getElementById('musicBtn').textContent = '⏸️ 暂停音乐';
       }
       isPlaying = !isPlaying;
+    });
+
+    // Cloudflare 登录
+    document.getElementById('cfLogin').addEventListener('click', () => {
+      window.open('https://dash.cloudflare.com/login', '_blank');
+    });
+
+    // Google 邮箱登录
+    document.getElementById('gmailLogin').addEventListener('click', () => {
+      window.open('https://accounts.google.com/signin', '_blank');
     });
 
     // 添加书签
