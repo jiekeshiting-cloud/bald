@@ -6,10 +6,15 @@
   <title>二宝子的导航书签</title>
   <style>
     :root {
-      --bg1: #0f0c29; --bg2: #302b63; --bg3: #24243e;
-      --accent: #a5b4fc;
-      --glass: rgba(255,255,255,0.12); --glass-border: rgba(255,255,255,0.25);
-      --text: #ffffff; --muted: rgba(255,255,255,0.85); --card-bg: rgba(255,255,255,0.11);
+      --bg1: #0a0a2e;     /* 深蓝紫 */
+      --bg2: #1a0f4d;     /* 中紫 */
+      --bg3: #2e1a6b;     /* 亮紫蓝 */
+      --accent: #a5b4fc;  /* 淡紫蓝 */
+      --glass: rgba(255,255,255,0.10);
+      --glass-border: rgba(165,180,252,0.28);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.82);
+      --card-bg: rgba(255,255,255,0.09);
     }
 
     * { box-sizing: border-box; margin:0; padding:0; }
@@ -18,9 +23,16 @@
       color: var(--text);
       min-height: 100vh;
       background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-      background-size: cover;
+      background-size: 400% 400%;
+      animation: gradientShift 25s ease infinite;
       background-attachment: fixed;
       overflow-x: hidden;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     #particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
@@ -31,17 +43,19 @@
       margin: 12px 0 20px; padding: 14px 0; overflow:hidden; border-radius:999px;
       background:var(--glass); border:1px solid var(--glass-border); backdrop-filter:blur(20px);
     }
-    .marquee { display:inline-block; white-space:nowrap; font-size:16.5px; font-weight:600;
-      color:var(--accent); padding-left:100%; animation:marquee 26s linear infinite; }
+    .marquee { 
+      display:inline-block; white-space:nowrap; font-size:16.5px; font-weight:600;
+      color:var(--accent); padding-left:100%; animation:marquee 28s linear infinite; 
+    }
     @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-100%);} }
 
     .header { display:flex; flex-direction:column; align-items:center; gap:16px; margin-bottom:12px; }
     .hero {
       display:flex; flex-direction:column; align-items:center; text-align:center; gap:16px;
-      padding:24px 20px; border:1px solid var(--glass-border); border-radius:28px;
+      padding:28px 20px; border:1px solid var(--glass-border); border-radius:28px;
       background:var(--glass); backdrop-filter:blur(22px); width:100%;
     }
-    .avatar { width:94px; height:94px; border-radius:50%; object-fit:cover; border:4px solid rgba(165,180,252,0.7); }
+    .avatar { width:94px; height:94px; border-radius:50%; object-fit:cover; border:4px solid rgba(165,180,252,0.75); }
     .title-box h1 { font-size:29px; letter-spacing:1.5px; margin-bottom:4px; }
     .title-box p { color:var(--muted); font-size:15px; }
 
@@ -52,44 +66,62 @@
 
     .controls { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; width:100%; margin-bottom:16px; }
     button {
-      background:rgba(255,255,255,0.25); color:var(--text); border:1px solid rgba(165,180,252,0.4);
+      background:rgba(255,255,255,0.22); color:var(--text); border:1px solid rgba(165,180,252,0.45);
       padding:13px 22px; border-radius:999px; cursor:pointer; font-size:14.5px; min-width:130px;
+      transition: all 0.3s ease;
     }
-    button:hover { background:rgba(165,180,252,0.3); transform:scale(1.05); }
+    button:hover { background:rgba(165,180,252,0.35); transform:scale(1.06); }
 
-    .search-box { margin:12px 0 24px; padding:16px 20px; border-radius:999px;
-      background:rgba(255,255,255,0.13); border:1px solid rgba(165,180,252,0.3); backdrop-filter:blur(18px); }
+    .search-box { 
+      margin:12px 0 24px; padding:16px 20px; border-radius:999px;
+      background:rgba(255,255,255,0.12); border:1px solid rgba(165,180,252,0.35); backdrop-filter:blur(18px); 
+    }
     .search-input { width:100%; border:none; outline:none; background:transparent; color:var(--text); font-size:16px; }
 
     .section-title { 
-      font-size:17.5px; margin:28px 0 14px; padding-left:10px; 
-      border-left:4px solid var(--accent); 
+      font-size:17.8px; margin:32px 0 14px; padding-left:12px; 
+      border-left:5px solid var(--accent); font-weight:600;
     }
 
-    .grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:16px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; }
 
     .card {
       display:block; text-decoration:none; color:var(--text); padding:20px 16px; border-radius:20px;
       background:var(--card-bg); border:1px solid rgba(165,180,252,0.25); 
-      backdrop-filter:blur(14px); box-shadow:0 10px 25px rgba(0,0,0,0.3);
+      backdrop-filter:blur(14px); box-shadow:0 10px 25px rgba(0,0,0,0.35);
       transition:all 0.3s ease;
     }
-    .card:hover { transform:translateY(-7px); box-shadow:0 20px 45px rgba(165,180,252,0.25); }
-
-    .card .icon { font-size:31px; margin-bottom:10px; }
-    .card h3 { font-size:16.8px; margin-bottom:6px; }
-    .card p { font-size:13.2px; color:var(--muted); line-height:1.6; }
-
-    /* 已导入书签区域 - 更醒目 */
-    #importedSection {
-      margin-top: 50px;
-      padding: 20px;
-      background: rgba(165,180,252,0.08);
-      border: 2px dashed rgba(165,180,252,0.4);
-      border-radius: 24px;
+    .card:hover { 
+      transform:translateY(-8px); 
+      box-shadow:0 22px 50px rgba(165,180,252,0.28);
+      border-color: rgba(165,180,252,0.5);
     }
 
-    .footer { margin-top:60px; text-align:center; color:rgba(255,255,255,0.72); font-size:13px; }
+    .card .icon { font-size:32px; margin-bottom:12px; }
+    .card h3 { font-size:16.8px; margin-bottom:7px; }
+    .card p { font-size:13.3px; color:var(--muted); line-height:1.55; }
+
+    /* 已导入书签区域 - 更醒目优化 */
+    #importedSection {
+      margin-top: 60px;
+      padding: 28px 24px;
+      background: rgba(165,180,252,0.09);
+      border: 2px dashed rgba(165,180,252,0.55);
+      border-radius: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .imported-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      color: var(--accent);
+    }
+
+    .footer { 
+      margin-top:70px; text-align:center; color:rgba(255,255,255,0.68); font-size:13.2px; 
+    }
   </style>
 </head>
 <body data-theme="dark">
@@ -130,9 +162,15 @@
     <!-- 原始书签 -->
     <div id="originalSections"></div>
 
-    <!-- 已导入书签（新增且醒目） -->
+    <!-- 已导入书签区域（优化后） -->
     <div id="importedSection" style="display: none;">
-      <div class="section-title">📥 已导入的书签（点击下方卡片可跳转）</div>
+      <div class="imported-header">
+        <span style="font-size:24px;">📥</span>
+        <div>
+          <div class="section-title" style="margin:0; border:none; padding:0;">已导入的书签</div>
+          <p style="font-size:14px; color:var(--muted); margin-top:4px;">以下是您本次导入的内容</p>
+        </div>
+      </div>
       <div id="importedGrid" class="grid"></div>
     </div>
 
@@ -144,30 +182,36 @@
   <audio id="bgMusic" loop preload="auto"></audio>
 
   <script>
-    // 粒子、音乐、时间等代码保持（为了长度，这里省略了重复部分，你可以从上一个版本复制过来）
-    // ...（粒子动画、音乐、时间、天气、搜索等）
+    // ==================== 书签数据结构示例（请替换为你自己的原始数据） ====================
+    let originalCategories = [
+      // 这里放你原来的书签数据，例如：
+      // { title: "常用工具", cards: [ {name:"百度", url:"https://baidu.com", icon:"🔍", desc:"..."}, ... ] }
+    ];
 
-    let originalCategories = [ /* 你的原始书签数据 */ ];
     let importedCategories = [];
 
     function renderSections(containerId, data) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
+      
       data.forEach(cat => {
         let html = `<div class="section-title">${cat.title}</div><div class="grid">`;
+        
         cat.cards.forEach(card => {
-          html += `<a class="card" href="${card.url}" target="_blank">
-            <div class="icon">${card.icon}</div>
-            <h3>${card.name}</h3>
-            <p>${card.desc}</p>
-          </a>`;
+          html += `
+            <a class="card" href="${card.url}" target="_blank" rel="noopener">
+              <div class="icon">${card.icon || '🔗'}</div>
+              <h3>${card.name}</h3>
+              <p>${card.desc || '暂无描述'}</p>
+            </a>`;
         });
+        
         html += '</div>';
         container.innerHTML += html;
       });
     }
 
-    // 导入功能
+    // 导入书签功能（已修复格式兼容）
     document.getElementById('importBtn').addEventListener('click', () => {
       document.getElementById('importFile').click();
     });
@@ -179,13 +223,27 @@
       const reader = new FileReader();
       reader.onload = (ev) => {
         try {
-          const imported = JSON.parse(ev.target.result);
-          if (!Array.isArray(imported) || imported.length === 0) {
-            alert('❌ 文件内容为空或格式错误');
+          const importedData = JSON.parse(ev.target.result);
+
+          // 支持两种常见格式：直接数组 或 {categories: [...]}
+          let newCategories = [];
+          if (Array.isArray(importedData)) {
+            newCategories = importedData;
+          } else if (importedData.categories && Array.isArray(importedData.categories)) {
+            newCategories = importedData.categories;
+          } else if (importedData.data && Array.isArray(importedData.data)) {
+            newCategories = importedData.data;
+          } else {
+            alert('❌ 文件格式不正确！\n\n请确保是包含分类数组的 JSON 文件');
             return;
           }
 
-          importedCategories = imported;
+          if (newCategories.length === 0) {
+            alert('❌ 导入的内容为空');
+            return;
+          }
+
+          importedCategories = newCategories;
           document.getElementById('importedSection').style.display = 'block';
           
           renderSections('importedGrid', importedCategories);
@@ -193,17 +251,24 @@
           // 自动滚动到导入区域
           document.getElementById('importedSection').scrollIntoView({ behavior: 'smooth' });
 
-          alert(`✅ 成功导入 ${imported.length} 个分类！已在下方显示`);
+          alert(`✅ 导入成功！\n共导入 ${importedCategories.length} 个分类，已在下方显示`);
+
         } catch (err) {
-          alert('❌ 导入失败：文件格式不正确');
+          console.error(err);
+          alert('❌ 导入失败：JSON 文件格式错误或损坏\n\n请检查文件是否为正确的书签 JSON 格式');
         }
       };
       reader.readAsText(file);
+      
+      // 清空 input，方便重复导入同一个文件
+      e.target.value = '';
     });
 
-    // 初始化
+    // 初始化渲染原始书签
     renderSections('originalSections', originalCategories);
-    // 粒子、音乐等初始化代码...
+
+    // ==================== 其他功能（粒子、音乐、时间、天气等）请保留你原来的代码 ====================
+    // ...（把你之前版本的粒子、音乐、日期时间、天气、搜索、键盘快捷键等脚本粘贴到这里）
   </script>
 </body>
 </html>
