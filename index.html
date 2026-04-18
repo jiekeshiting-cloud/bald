@@ -15,17 +15,17 @@ body{font-family:"Microsoft YaHei",system-ui,sans-serif;background:var(--bg);col
 .container{max-width:1180px;margin:0 auto;padding:20px 16px 100px}
 .header{text-align:center;margin:30px 0 25px}
 .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;border:4px solid var(--accent)}
-.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:25px 0 35px}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:25px 0 35px}
 button{background:rgba(159,122,234,0.12);color:var(--text);border:1px solid var(--border);padding:14px 20px;border-radius:999px;cursor:pointer;font-size:15px;transition:.3s}
 button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
 .search-box{margin:20px 0 35px;padding:16px 20px;border-radius:999px;background:rgba(255,255,255,0.7);border:1px solid var(--border)}
 .search-input{width:100%;border:none;outline:none;background:transparent;color:var(--text);font-size:16.5px}
 .section-title{font-size:18px;margin:35px 0 16px;padding-left:14px;border-left:5px solid var(--accent);font-weight:600}
 
-/* 强制双列核心修改 */
+/* 加强双列显示 */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: 18px;
 }
 
@@ -58,6 +58,8 @@ button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
   <div class="controls">
     <button id="themeToggle">☀️ 白天模式</button>
     <button id="musicBtn">🎵 音乐</button>
+    <button id="cfLogin">🔐 Cloudflare 登录</button>
+    <button id="githubLogin">🐙 GitHub 登录</button>
     <button id="addBtn">➕ 添加书签</button>
     <button id="clearBtn">🗑️ 清空全部</button>
   </div>
@@ -182,6 +184,8 @@ function updateDateTime(){
 document.getElementById('googleSearch').onkeypress = e=>{if(e.key==='Enter'){const q=encodeURIComponent(e.target.value.trim());if(q)window.open('https://www.google.com/search?q='+q+'&hl=zh-CN','_blank');}};
 document.getElementById('themeToggle').onclick = ()=>{const d=document.body.getAttribute('data-theme')==='dark';document.body.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeToggle').textContent=d?'☀️ 白天模式':'🌙 夜晚模式';};
 document.getElementById('musicBtn').onclick = ()=>{if(isPlaying){audio.pause();document.getElementById('musicBtn').textContent='🎵 点击播放音乐';}else{audio.play().catch(()=>{});document.getElementById('musicBtn').textContent='⏸️ 暂停音乐';}isPlaying=!isPlaying;};
+document.getElementById('cfLogin').onclick = ()=>window.open('https://dash.cloudflare.com/login','_blank');
+document.getElementById('githubLogin').onclick = ()=>window.open('https://github.com/login','_blank');
 document.getElementById('addBtn').onclick = ()=>{editingIndex=-1;document.getElementById('confirmAdd').textContent='✅ 添加书签';document.getElementById('addForm').style.display='block';selectedImageBase64='';document.getElementById('imagePreview').style.display='none';};
 document.getElementById('uploadImageBtn').onclick = ()=>document.getElementById('imageInput').click();
 document.getElementById('imageInput').onchange = e=>{
