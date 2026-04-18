@@ -22,20 +22,21 @@ button:hover{background:rgba(159,122,234,0.25);transform:scale(1.03)}
 .search-input{width:100%;border:none;outline:none;background:transparent;color:var(--text);font-size:16.5px}
 .section-title{font-size:18px;margin:35px 0 16px;padding-left:14px;border-left:5px solid var(--accent);font-weight:600}
 
-/* 加强双列显示 */
+/* ==================== 最强双列设置 ==================== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));   /* 调小宽度，强制更容易双列 */
+  gap: 16px;
 }
 
-.card{position:relative;display:block;text-decoration:none;color:var(--text);padding:20px 18px;border-radius:22px;background:var(--card);border:1px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,.05);transition:.3s}
+.card{position:relative;display:block;text-decoration:none;color:var(--text);padding:18px 16px;border-radius:20px;background:var(--card);border:1px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,.05);transition:.3s}
 .card:hover{transform:translateY(-6px);box-shadow:0 18px 35px rgba(159,122,234,.18)}
-.card .icon{font-size:34px;margin-bottom:12px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden}
+.card .icon{font-size:32px;margin-bottom:10px;width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden}
 .card .icon img{width:100%;height:100%;object-fit:cover}
-.card-actions{position:absolute;top:12px;right:12px;display:flex;gap:6px;opacity:0;transition:.2s}
+.card-actions{position:absolute;top:10px;right:10px;display:flex;gap:6px;opacity:0;transition:.2s}
 .card:hover .card-actions{opacity:1}
-.card-actions button{width:32px;height:32px;padding:0;font-size:16px;background:rgba(255,255,255,.95);border:1px solid #ddd;border-radius:8px}
+.card-actions button{width:30px;height:30px;padding:0;font-size:15px;background:rgba(255,255,255,.95);border:1px solid #ddd;border-radius:8px}
+
 .add-form{margin:30px 0;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:24px}
 .add-form input,.add-form select{width:100%;padding:13px 16px;margin-bottom:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
 .add-form button{width:100%;padding:14px;margin-bottom:8px;font-size:15px}
@@ -192,11 +193,7 @@ document.getElementById('imageInput').onchange = e=>{
   const f = e.target.files[0];
   if(!f) return;
   const r = new FileReader();
-  r.onload = ev => {
-    selectedImageBase64 = ev.target.result;
-    document.getElementById('previewImg').src = selectedImageBase64;
-    document.getElementById('imagePreview').style.display = 'block';
-  };
+  r.onload = ev => { selectedImageBase64 = ev.target.result; document.getElementById('previewImg').src = selectedImageBase64; document.getElementById('imagePreview').style.display = 'block'; };
   r.readAsDataURL(f);
 };
 document.getElementById('confirmAdd').onclick = ()=>{
@@ -204,13 +201,7 @@ document.getElementById('confirmAdd').onclick = ()=>{
   const url = document.getElementById('addUrl').value.trim();
   if(!name || !url) return alert('名称和网址不能为空！');
   if(!url.startsWith('http')) return alert('网址必须以 http:// 或 https:// 开头');
-  const newItem = {
-    name, url,
-    icon: document.getElementById('addIcon').value.trim() || '🔗',
-    image: selectedImageBase64 || null,
-    desc: document.getElementById('addDesc').value.trim(),
-    category: document.getElementById('addCategory').value
-  };
+  const newItem = {name, url, icon: document.getElementById('addIcon').value.trim() || '🔗', image: selectedImageBase64 || null, desc: document.getElementById('addDesc').value.trim(), category: document.getElementById('addCategory').value};
   if(editingIndex >= 0) bookmarks[editingIndex] = newItem;
   else bookmarks.push(newItem);
   saveBookmarks();
@@ -220,11 +211,7 @@ document.getElementById('confirmAdd').onclick = ()=>{
 };
 document.getElementById('cancelEdit').onclick = () => document.getElementById('addForm').style.display = 'none';
 document.getElementById('clearBtn').onclick = () => {
-  if(confirm('确定要清空所有书签吗？')){
-    bookmarks = [];
-    saveBookmarks();
-    renderBookmarks();
-  }
+  if(confirm('确定要清空所有书签吗？')){ bookmarks = []; saveBookmarks(); renderBookmarks(); }
 };
 
 window.onload = () => {
